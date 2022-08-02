@@ -41,6 +41,91 @@ function Header() {
       } `}
     >
       <div className="container">
+        <div className="navbar-brand flex-grow-1 ">
+          <Link to="/">Blacky Restaurant</Link>
+        </div>
+        <div className="navbar-brand d-block d-lg-none">
+          <ul className="d-flex py-1 mb-0">
+            <li className="nav-item mx-1">
+              <a href="#" role="button" className="nav-link">
+                <BsCart3 size={30} />
+              </a>
+            </li>
+            <li className="nav-item mx-1 dropdown">
+              <a
+                href="#"
+                className="dropdown-toggle nav-link"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <BsPerson size={30} />
+              </a>
+              <ul
+                className="dropdown-menu dropdown-menu-end"
+                style={{ zIndex: 2000 }}
+              >
+                {user ? (
+                  <>
+                    <li>
+                      <Link className="dropdown-item" to="/account">
+                        <BsPerson /> My Account
+                      </Link>
+                    </li>
+                    {/* <li>
+                      <Link className="dropdown-item" to="/dashboard">
+                      <BsCart2 /> Dashboard
+                      </Link>
+                    </li> */}
+                    <li>
+                      <Link className="dropdown-item" to="/cart">
+                        <BsCart2 /> View Cart
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/favourites">
+                        <MdFavoriteBorder /> Favourites
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/change-password">
+                        <MdOutlineLock /> Change Password
+                      </Link>
+                    </li>
+                    <li>
+                      <button className="btn dropdown-item" onClick={onLogout}>
+                        <MdLogout /> Logout
+                      </button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Link className="dropdown-item" to="/login">
+                        <MdOutlineLock /> Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/register">
+                        <BsPersonPlus /> Register
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/cart">
+                        <BsCart2 /> View Cart
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/favourites">
+                        <MdFavoriteBorder /> Favourites
+                      </Link>
+                    </li>
+                  </>
+                )}
+              </ul>
+            </li>
+          </ul>
+        </div>
         <button
           className="navbar-toggler"
           type="button"
@@ -52,10 +137,6 @@ function Header() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="navbar-brand">
-          <Link to="/">Blacky Restaurant</Link>
-        </div>
-
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
@@ -80,14 +161,14 @@ function Header() {
             </li>
           </ul>
         </div>
-        <div className="">
-          <ul className="navbar-nav">
-            <li className="nav-item">
+        <div className="d-none d-lg-block">
+          <ul className="d-flex mb-0 py-1">
+            <li className="nav-item mx-1">
               <a href="#" role="button" className="nav-link">
                 <BsCart3 size={30} />
               </a>
             </li>
-            <li className="nav-item dropdown">
+            <li className="nav-item mx-1 dropdown">
               <a
                 href="#"
                 className="dropdown-toggle nav-link"

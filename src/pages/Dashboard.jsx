@@ -13,7 +13,13 @@ function Dashboard() {
     }
   }, [user, navigate]);
 
-  return <div>Dashboard</div>;
+  return (
+    <div className="container">
+      <div className="">
+        <h1>Dashboard</h1>
+      </div>
+    </div>
+  );
 }
 
 export default Dashboard;

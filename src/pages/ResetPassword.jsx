@@ -48,7 +48,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center my-5">
+    <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center my-5 container">
       <div className="card w-100" style={{ maxWidth: "460px" }}>
         <div className="card-body p-4">
           <section className="heading">
