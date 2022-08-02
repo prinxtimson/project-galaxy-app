@@ -35,7 +35,7 @@ h3 {
   margin-bottom: 10px;
 }
 
-.container {
+.my-container {
   width: 100%;
   max-width: 960px;
   margin: 0 auto;
@@ -76,10 +76,10 @@ h3 {
 }
 
 .heading {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 50px;
+  font-size: 1rem;
+  margin-bottom: 30px;
   padding: 0 20px;
+  text-align: center;
 }
 
 .heading p {
@@ -108,19 +108,19 @@ h3 {
   background: none;
 }
 
-.form,
+.my-form,
 .content {
   width: 70%;
   margin: 0 auto;
 }
 
-.form-group {
+.my-form-group {
   margin-bottom: 10px;
 }
 
-.form-group input,
-.form-group textarea,
-.form-group select {
+.my-form-group input,
+.my-form-group textarea,
+.my-form-group select {
   width: 100%;
   padding: 10px;
   border: 1px solid #e6e6e6;
@@ -129,13 +129,13 @@ h3 {
   font-family: inherit;
 }
 
-.form-group label {
+.my-form-group label {
   text-align: left;
   display: block;
   margin: 0 0 5px 3px;
 }
 
-.btn {
+.my-btn {
   padding: 10px 20px;
   border: 1px solid #000;
   border-radius: 5px;
@@ -151,21 +151,21 @@ h3 {
   justify-content: center;
 }
 
-.btn svg {
+.my-btn svg {
   margin-right: 8px;
 }
 
-.btn-reverse {
+.my-btn-reverse {
   background: #fff;
   color: #000;
 }
 
-.btn-block {
+.my-btn-block {
   width: 100%;
   margin-bottom: 20px;
 }
 
-.btn:hover {
+.my-btn:hover {
   transform: scale(0.98);
 }
 
@@ -191,6 +191,10 @@ h3 {
   animation: spin 1.2s linear infinite;
 }
 
+#root {
+  height: 100%;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -201,7 +205,7 @@ h3 {
 }
 
 @media (max-width: 600px) {
-  .form {
+  .my-form {
     width: 90%;
   }
 

@@ -42,6 +42,54 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
   }
 });
 
+export const forgotPass = createAsyncThunk(
+  "auth/forgot-password",
+  async (email, thunkAPI) => {
+    try {
+      return await authService.forgotPass(email);
+    } catch (err) {
+      const msg =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+
+      return thunkAPI.rejectWithValue(msg);
+    }
+  }
+);
+
+export const resetPass = createAsyncThunk(
+  "auth/reset-password",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.resetPass(data);
+    } catch (err) {
+      const msg =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+
+      return thunkAPI.rejectWithValue(msg);
+    }
+  }
+);
+
+export const changePass = createAsyncThunk(
+  "auth/change-password",
+  async (data, thunkAPI) => {
+    try {
+      return await authService.changePass(data);
+    } catch (err) {
+      const msg =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+
+      return thunkAPI.rejectWithValue(msg);
+    }
+  }
+);
+
 export const logout = createAsyncThunk("auth/logout", async () => {
   await authService.logout();
 });
@@ -89,6 +137,32 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
+      })
+      .addCase(forgotPass.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(forgotPass.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+      })
+      .addCase(forgotPass.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(resetPass.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(resetPass.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.message = action.payload;
+      })
+      .addCase(resetPass.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });

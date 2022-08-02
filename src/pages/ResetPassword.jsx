@@ -1,23 +1,23 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { login, reset } from "../features/auth/authSlice";
+import { resetPass, reset } from "../features/auth/authSlice";
 
-function Login() {
-  const [formData, setFromData] = useState({
+const ResetPassword = () => {
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
-    remember: false,
+    confirm_password: "",
   });
 
-  const { email, password, remember } = formData;
+  const { email, password, confirm_password } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { user, isLoading, isSuccess, isError, message } = useSelector(
+  const { isLoading, isSuccess, isError, message } = useSelector(
     (state) => state.auth
   );
 
@@ -26,15 +26,16 @@ function Login() {
       toast.error(message);
     }
 
-    if (isSuccess || user) {
-      navigate("/");
+    if (isSuccess) {
+      toast.success(message);
+      navigate("/login");
     }
 
     dispatch(reset());
-  }, [user, isError, isSuccess, message, navigate, dispatch]);
+  }, [isError, isSuccess, message, navigate, dispatch]);
 
   const onChange = (e) => {
-    setFromData((prevState) => ({
+    setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -43,7 +44,7 @@ function Login() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(login(formData));
+    dispatch(resetPass(formData));
   };
 
   return (
@@ -51,8 +52,7 @@ function Login() {
       <div className="card w-100" style={{ maxWidth: "460px" }}>
         <div className="card-body p-4">
           <section className="heading">
-            <h3>Login</h3>
-            <p>Please enter your details to login</p>
+            <h3>Reset Password</h3>
           </section>
           <section className="form">
             <form onSubmit={onSubmit}>
@@ -61,11 +61,9 @@ function Login() {
                   type="email"
                   className="form-control"
                   id="email"
-                  name="email"
                   value={email}
                   placeholder="Enter your email"
-                  onChange={onChange}
-                  required
+                  readOnly
                 />
                 <label htmlFor="floatingInput">Email address</label>
               </div>
@@ -78,26 +76,28 @@ function Login() {
                   value={password}
                   placeholder="Enter your password"
                   onChange={onChange}
-                  required
                 />
                 <label htmlFor="floatingPassword">Password</label>
-              </div>
-              <div className="d-flex my-2 justify-content-between">
-                <div className="form-check">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    id="autoSizingCheck"
-                    value={remember}
-                  />
-                  <label className="form-check-label" htmlFor="autoSizingCheck">
-                    Remember me
-                  </label>
+                <div id="passwordHelpBlock" className="form-text">
+                  <small>
+                    Your password must be at least 8 characters long, contain
+                    letters and numbers, special characters.
+                  </small>
                 </div>
-
-                <Link to="/forgot-password" className="">
-                  Forgot your password?
-                </Link>
+              </div>
+              <div className="form-floating mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="confirm_password"
+                  name="confirm_password"
+                  value={confirm_password}
+                  placeholder="Re-enter your password"
+                  onChange={onChange}
+                />
+                <label htmlFor="floatingConfirmPassword">
+                  Confirm password
+                </label>
               </div>
               <div className="d-grid">
                 <button
@@ -105,33 +105,15 @@ function Login() {
                   disabled={isLoading}
                   className="btn btn-primary btn-lg"
                 >
-                  Submit
+                  Reset Password
                 </button>
               </div>
             </form>
-          </section>
-          <section className="d-flex align-items-center py-3">
-            <div className="border" style={{ width: "40%" }}></div>
-            <div className="text-center" style={{ width: "20%" }}>
-              or
-            </div>
-            <div className="border" style={{ width: "40%" }}></div>
-          </section>
-          <section>
-            <div className="d-grid mb-3">
-              <button
-                type="submit"
-                className="btn btn-danger btn-lg"
-                disabled={isLoading}
-              >
-                Login with Google
-              </button>
-            </div>
           </section>
         </div>
       </div>
     </div>
   );
-}
+};
 
-export default Login;
+export default ResetPassword;
