@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+import Layout from "../components/Layout";
+
 function Dashboard() {
   const navigate = useNavigate();
 
@@ -14,11 +16,13 @@ function Dashboard() {
   }, [user, navigate]);
 
   return (
-    <div className="container">
-      <div className="">
-        <h1>Dashboard</h1>
+    <Layout>
+      <div className="container">
+        <div className="">
+          <h1>Dashboard</h1>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 }
 

@@ -1,32 +1,19 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState, useEffect } from "react";
 import { BsPerson, BsCart3, BsCart2, BsPersonPlus } from "react-icons/bs";
-import { MdLogout, MdOutlineLock, MdFavoriteBorder } from "react-icons/md";
+import {
+  MdLogout,
+  MdOutlineLock,
+  MdFavoriteBorder,
+  MdHistory,
+} from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 
-function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
+function Header({ isScrolled }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-
-  useEffect(() => {
-    const root = document.getElementById("main");
-
-    const onScrolled = () => {
-      if (root.scrollTop >= 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    root.addEventListener("scroll", onScrolled);
-
-    return () => root.removeEventListener("scroll", onScrolled);
-  }, []);
 
   const onLogout = () => {
     dispatch(logout());
@@ -83,6 +70,11 @@ function Header() {
                       </Link>
                     </li>
                     <li>
+                      <Link className="dropdown-item" to="/order-history">
+                        <MdHistory /> History
+                      </Link>
+                    </li>
+                    <li>
                       <Link className="dropdown-item" to="/favourites">
                         <MdFavoriteBorder /> Favourites
                       </Link>
@@ -113,6 +105,11 @@ function Header() {
                     <li>
                       <Link className="dropdown-item" to="/cart">
                         <BsCart2 /> View Cart
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/order-history">
+                        <MdHistory /> History
                       </Link>
                     </li>
                     <li>
@@ -197,6 +194,11 @@ function Header() {
                       </Link>
                     </li>
                     <li>
+                      <Link className="dropdown-item" to="/order-history">
+                        <MdHistory /> History
+                      </Link>
+                    </li>
+                    <li>
                       <Link className="dropdown-item" to="/favourites">
                         <MdFavoriteBorder /> Favourites
                       </Link>
@@ -227,6 +229,11 @@ function Header() {
                     <li>
                       <Link className="dropdown-item" to="/cart">
                         <BsCart2 /> View Cart
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/order-history">
+                        <MdHistory /> History
                       </Link>
                     </li>
                     <li>

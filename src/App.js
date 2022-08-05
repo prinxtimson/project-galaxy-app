@@ -14,30 +14,28 @@ import Favourite from "./pages/Favourite";
 import Cart from "./pages/Cart";
 import OrderHistory from "./pages/OrderHistory";
 import ChangePassword from "./pages/ChangePassword";
-
-import Header from "./components/Header";
-import Layout from "./components/Layout";
+import Checkout from "./pages/Checkout";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Layout>
-          <Header />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/account" element={<Profile />} />
-            <Route path="/favourites" element={<Favourite />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/order-history" element={<OrderHistory />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/change-password" element={<ChangePassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/account" element={<Profile />} />
+          <Route path="/favourites" element={<Favourite />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
+          <Route path="/order-history" element={<OrderHistory />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/change-password" element={<ChangePassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
+        </Routes>
       </BrowserRouter>
       <ToastContainer />
     </>

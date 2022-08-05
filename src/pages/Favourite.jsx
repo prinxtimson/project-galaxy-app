@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 
+import Layout from "../components/Layout";
+
 const FAVOURITES = [
   {
     img: "./images/veg_img_2.jpg",
@@ -35,40 +37,42 @@ const Favourite = () => {
   useEffect(() => {}, []);
 
   return (
-    <div className="container mt-5">
-      <div className="mb-5">
-        <h2>My Favourites</h2>
-      </div>
-      <div className="">
-        <div className="row">
-          {FAVOURITES.map((val, ind) => (
-            <div key={ind} className="col-sm-12 col-md-6 col-lg-4 mb-4">
-              <div className="card">
-                <img
-                  src={val.img}
-                  style={{ height: 200, width: "100%" }}
-                  className="card-img-top"
-                  alt="..."
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{val.name}</h5>
-                  <p className="card-text">{val.description}</p>
-                  <p className="card-text">
-                    <small className="text-muted">{val.price}</small>
-                  </p>
-                  <div className="d-flex justify-content-between">
-                    <button className="btn btn-primary">Add to Cart</button>
-                    <button className="btn btn-outline-danger">
-                      Delete Favourite
-                    </button>
+    <Layout>
+      <div className="container mt-5">
+        <div className="mb-5">
+          <h2>My Favourites</h2>
+        </div>
+        <div className="">
+          <div className="row">
+            {FAVOURITES.map((val, ind) => (
+              <div key={ind} className="col-sm-12 col-md-6 col-lg-4 mb-4">
+                <div className="card">
+                  <img
+                    src={val.img}
+                    style={{ height: 200, width: "100%" }}
+                    className="card-img-top"
+                    alt="..."
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{val.name}</h5>
+                    <p className="card-text">{val.description}</p>
+                    <p className="card-text">
+                      <small className="text-muted">{val.price}</small>
+                    </p>
+                    <div className="d-flex justify-content-between">
+                      <button className="btn btn-primary">Add to Cart</button>
+                      <button className="btn btn-outline-danger">
+                        Delete Favourite
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 

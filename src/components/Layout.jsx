@@ -1,4 +1,26 @@
+import { useState, useEffect } from "react";
+import Footer from "./Footer";
+import Header from "./Header";
+
 const Layout = ({ children }) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const root = document.getElementById("main");
+
+    const onScrolled = () => {
+      if (root.scrollTop >= 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    root.addEventListener("scroll", onScrolled);
+
+    return () => root.removeEventListener("scroll", onScrolled);
+  }, []);
+
   return (
     <div
       style={{
@@ -18,7 +40,9 @@ const Layout = ({ children }) => {
           backgroundColor: "rgba(255, 255, 255, 0.3)",
         }}
       >
+        <Header isScrolled={isScrolled} />
         {children}
+        <Footer isScrolled={isScrolled} />
       </div>
     </div>
   );
