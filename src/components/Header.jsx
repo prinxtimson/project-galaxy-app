@@ -14,6 +14,7 @@ function Header({ isScrolled }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);
 
   const onLogout = () => {
     dispatch(logout());
@@ -34,9 +35,17 @@ function Header({ isScrolled }) {
         <div className="navbar-brand d-block d-lg-none">
           <ul className="d-flex py-1 mb-0">
             <li className="nav-item mx-1">
-              <a href="#" role="button" className="nav-link">
+              <Link
+                to="/cart"
+                role="button"
+                className="nav-link position-relative"
+              >
                 <BsCart3 size={30} />
-              </a>
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {cart.length}
+                  <span className="visually-hidden">Cart Items</span>
+                </span>
+              </Link>
             </li>
             <li className="nav-item mx-1 dropdown">
               <a
@@ -142,7 +151,7 @@ function Header({ isScrolled }) {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="#">
+              <Link className="nav-link" to="/menu">
                 Menu
               </Link>
             </li>
@@ -161,9 +170,17 @@ function Header({ isScrolled }) {
         <div className="d-none d-lg-block">
           <ul className="d-flex mb-0 py-1">
             <li className="nav-item mx-1">
-              <a href="#" role="button" className="nav-link">
+              <Link
+                to="/cart"
+                role="button"
+                className="nav-link position-relative"
+              >
                 <BsCart3 size={30} />
-              </a>
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                  {cart.length}
+                  <span className="visually-hidden">Cart Items</span>
+                </span>
+              </Link>
             </li>
             <li className="nav-item mx-1 dropdown">
               <a

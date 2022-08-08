@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
-
+import { useSelector, useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 import Layout from "../components/Layout";
+import {
+  updateProfile,
+  getProfile,
+  reset,
+} from "../features/profile/profileSlice";
 
 const Profile = () => {
   const [formData, setFormData] = useState({
@@ -11,9 +16,13 @@ const Profile = () => {
     address: "",
   });
 
+  const dispatch = useDispatch();
+
   const { name, email, phone, address } = formData;
 
-  const { user } = useSelector((state) => state.auth);
+  const { profile, isLoading, isSuccess, isError, message } = useSelector(
+    (state) => state.profile
+  );
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -23,12 +32,31 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    if (user) {
-      setFormData(user.user);
+    if (isError) {
+      toast.error(message);
     }
-  }, [user]);
 
-  const onSubmit = () => {};
+    if (isSuccess) {
+      toast.success("Profile updated successfuly");
+    }
+
+    dispatch(reset());
+  }, [isError, isSuccess, message, dispatch]);
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (profile.user) {
+      setFormData(profile.user);
+    }
+  }, [profile]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(updateProfile(formData));
+  };
 
   return (
     <Layout>
@@ -46,7 +74,9 @@ const Profile = () => {
             <form onSubmit={onSubmit}>
               <div className="d-flex justify-content-between mb-4">
                 <h3>My Details</h3>
-                <button className="btn btn-dark">Update Details</button>
+                <button disabled={isLoading} className="btn btn-dark">
+                  Update Details
+                </button>
               </div>
               <div className="row mb-3">
                 <label htmlFor="name" className="col-sm-2 col-form-label">
@@ -74,7 +104,7 @@ const Profile = () => {
                     value={email}
                     name="email"
                     id="email"
-                    onChange={onChange}
+                    readOnly
                   />
                 </div>
               </div>

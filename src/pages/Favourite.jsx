@@ -1,40 +1,33 @@
 import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { addOrRemove, reset } from "../features/favorite/favoriteSlice";
 
 import Layout from "../components/Layout";
 
-const FAVOURITES = [
-  {
-    img: "./images/veg_img_2.jpg",
-    name: "Stir Fry Prawn Noodles",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae lacus in ligula faucibus convallis et sit amet nulla. In nec rhoncus quam.",
-    price: "£10.00",
-  },
-  {
-    img: "./images/veg_img.jpg",
-    name: "Beef with Garlic",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae lacus in ligula faucibus convallis et sit amet nulla. In nec rhoncus quam.",
-    price: "£12.00",
-  },
-  {
-    img: "./images/veg_img_4.jpg",
-    name: "Chicken Katsu Curry",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae lacus in ligula faucibus convallis et sit amet nulla. In nec rhoncus quam.",
-    price: "£22.00",
-  },
-  {
-    img: "./images/veg_img_6.jpg",
-    name: "Sweet & Sour Chicken",
-    description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae lacus in ligula faucibus convallis et sit amet nulla. In nec rhoncus quam.",
-    price: "£14.00",
-  },
-];
-
 const Favourite = () => {
-  useEffect(() => {}, []);
+  const dispatch = useDispatch();
+
+  const { favorites, isError, isSuccess, message } = useSelector(
+    (state) => state.favorite
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      toast.success("food had been add/remove to favorite");
+    }
+
+    dispatch(reset());
+  }, [favorites, isError, isSuccess, message, dispatch]);
+
+  const onFavoriteClick = (data) => {
+    dispatch(addOrRemove(data));
+  };
 
   return (
     <Layout>
@@ -44,25 +37,34 @@ const Favourite = () => {
         </div>
         <div className="">
           <div className="row">
-            {FAVOURITES.map((val, ind) => (
+            {favorites.map((val, ind) => (
               <div key={ind} className="col-sm-12 col-md-6 col-lg-4 mb-4">
-                <div className="card">
-                  <img
-                    src={val.img}
-                    style={{ height: 200, width: "100%" }}
-                    className="card-img-top"
-                    alt="..."
-                  />
+                <div className="card text-center">
+                  <Link to="#">
+                    <img
+                      src={val.img}
+                      style={{ height: 200, width: "100%" }}
+                      className="card-img-top"
+                      alt="..."
+                    />
+                  </Link>
                   <div className="card-body">
-                    <h5 className="card-title">{val.name}</h5>
-                    <p className="card-text">{val.description}</p>
+                    <h5 className="card-title">
+                      <Link to="#">{val.name}</Link>
+                    </h5>
                     <p className="card-text">
                       <small className="text-muted">{val.price}</small>
                     </p>
                     <div className="d-flex justify-content-between">
-                      <button className="btn btn-primary">Add to Cart</button>
-                      <button className="btn btn-outline-danger">
-                        Delete Favourite
+                      <Link to="#" className="btn btn-primary">
+                        Add to Cart
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => onFavoriteClick(val)}
+                        className="btn btn-outline-danger"
+                      >
+                        Remove Favourite
                       </button>
                     </div>
                   </div>

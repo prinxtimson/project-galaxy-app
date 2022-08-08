@@ -1,19 +1,28 @@
+/* eslint-disable no-throw-literal */
 import axios from "axios";
 
 const API_URL = "/api/users/";
 
 const register = async (userData) => {
-  const res = await axios.post(API_URL, userData);
+  //const res = await axios.post(API_URL, userData);
 
-  if (res.data) {
-    localStorage.setItem("user", JSON.stringify(res.data));
+  const isExist = sessionStorage.getItem(userData.email);
+
+  if (isExist) throw { message: "User alreaady exist." };
+
+  sessionStorage.setItem(userData.email, JSON.stringify(userData));
+
+  if (userData) {
+    localStorage.setItem("user", JSON.stringify(userData));
+    localStorage.setItem("profile", JSON.stringify({ user: userData }));
   }
 
-  return res.data;
+  return { user: userData, token: "HH2i93nind0303ndKLsidw2obZh0" };
 };
 
 const logout = async () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("profile");
 };
 
 // const login = async (userData) => {
@@ -27,15 +36,19 @@ const logout = async () => {
 // };
 
 const login = async (userData) => {
-  return {
-    user: {
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "+774646256727",
-      address: "",
-    },
-    token: "HH2i93nind0303ndKLsidw2obZh0",
-  };
+  const user = JSON.parse(sessionStorage.getItem(userData.email));
+
+  if (!user || user.password !== userData.password) {
+    throw {
+      message:
+        "Sorry, your login is invalid. Please re-enter your details carefully.",
+    };
+  } else {
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("profile", JSON.stringify({ user }));
+  }
+
+  return { user, token: "HH2i93nind0303ndKLsidw2obZh0" };
 };
 
 const forgotPass = async (email) => {

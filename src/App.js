@@ -16,6 +16,8 @@ import OrderHistory from "./pages/OrderHistory";
 import ChangePassword from "./pages/ChangePassword";
 import Checkout from "./pages/Checkout";
 import Payment from "./pages/Payment";
+import FoodMenu from "./pages/FoodMenu";
+import SingleMenu from "./pages/SingleMenu";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/account" element={<Profile />} />
           <Route path="/favourites" element={<Favourite />} />
+          <Route path="/menu" element={<FoodMenu />} />
+          <Route path="/menu/:id" element={<SingleMenu />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/payment" element={<Payment />} />

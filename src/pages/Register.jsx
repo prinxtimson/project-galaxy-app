@@ -11,13 +11,16 @@ import Layout from "../components/Layout";
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
+    username: "",
+    phone: "",
     email: "",
     password: "",
     confirm_password: "",
     visible: false,
   });
 
-  const { name, email, password, confirm_password, visible } = formData;
+  const { name, email, username, phone, password, confirm_password, visible } =
+    formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -62,7 +65,7 @@ function Register() {
         <div className="card w-100" style={{ maxWidth: "460px" }}>
           <div className="card-body p-4">
             <section className="heading">
-              <h3>Register</h3>
+              <h3>Sign up</h3>
               <p>Please enter your details to create an account</p>
             </section>
             <section className="form">
@@ -78,7 +81,19 @@ function Register() {
                     onChange={onChange}
                     required
                   />
-                  <label htmlFor="floatingName">Enter your name</label>
+                  <label htmlFor="floatingName">Enter name *</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="username"
+                    name="username"
+                    value={username}
+                    placeholder="John Doe"
+                    onChange={onChange}
+                  />
+                  <label htmlFor="floatingName">Enter username</label>
                 </div>
                 <div className="form-floating mb-3">
                   <input
@@ -91,12 +106,32 @@ function Register() {
                     onChange={onChange}
                     required
                   />
-                  <label htmlFor="floatingEmail">Enter your email</label>
+                  <label htmlFor="floatingEmail">Enter email *</label>
                 </div>
                 <div className="form-floating mb-3">
                   <input
-                    type="password"
+                    type="text"
                     className="form-control"
+                    id="phone"
+                    name="phone"
+                    value={phone}
+                    placeholder="John Doe"
+                    onChange={onChange}
+                  />
+                  <label htmlFor="floatingName">Enter telephone</label>
+                </div>
+                <div className="form-floating mb-3">
+                  <input
+                    type={visible ? "text" : "password"}
+                    className={
+                      !password
+                        ? "form-control"
+                        : password.match(
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+                          )
+                        ? "form-control is-valid"
+                        : "form-control is-invalid"
+                    }
                     id="password"
                     name="password"
                     value={password}
@@ -104,10 +139,10 @@ function Register() {
                     onChange={onChange}
                     required
                   />
-                  <label htmlFor="floatingPassword">Enter your password</label>
+                  <label htmlFor="floatingPassword">Enter password *</label>
                   <button
-                    className="btn position-absolute end-0 border-0"
-                    style={{ top: 10 }}
+                    className="btn position-absolute border-0"
+                    style={{ top: 10, right: 15 }}
                     type="button"
                     onClick={() =>
                       setFormData((prevData) => ({
@@ -118,7 +153,18 @@ function Register() {
                   >
                     {visible ? <FaEyeSlash /> : <FaEye />}
                   </button>
-                  <div id="passwordHelpBlock" className="form-text">
+                  <div
+                    id="passwordHelpBlock"
+                    className={
+                      !password
+                        ? "form-text"
+                        : password.match(
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
+                          )
+                        ? "form-text valid-feedback"
+                        : "form-text invalid-feedback"
+                    }
+                  >
                     <small>
                       Your password must be at least 8 characters long, contain
                       letters and numbers, special characters.
@@ -127,8 +173,14 @@ function Register() {
                 </div>
                 <div className="form-floating mb-3">
                   <input
-                    type="password"
-                    className="form-control"
+                    type={visible ? "text" : "password"}
+                    className={
+                      !password
+                        ? "form-control"
+                        : password === confirm_password
+                        ? "form-control is-valid"
+                        : "form-control is-invalid"
+                    }
                     id="confirm_password"
                     name="confirm_password"
                     value={confirm_password}
@@ -137,11 +189,11 @@ function Register() {
                     required
                   />
                   <label htmlFor="floatingConfirmPassword">
-                    Confirm your password
+                    Confirm password *
                   </label>
                   <button
-                    className="btn position-absolute end-0 border-0"
-                    style={{ top: 10 }}
+                    className="btn position-absolute border-0"
+                    style={{ top: 10, right: 15 }}
                     type="button"
                     onClick={() =>
                       setFormData((prevData) => ({
@@ -152,6 +204,18 @@ function Register() {
                   >
                     {visible ? <FaEyeSlash /> : <FaEye />}
                   </button>
+                  <div
+                    id="passwordHelpBlock"
+                    className={
+                      !confirm_password
+                        ? "d-none"
+                        : password === confirm_password
+                        ? "d-none"
+                        : "form-text invalid-feedback"
+                    }
+                  >
+                    <small>Password do not match</small>
+                  </div>
                 </div>
                 <div className="mb-3">
                   <div className="form-check">
@@ -196,7 +260,7 @@ function Register() {
                     className="btn btn-primary btn-lg"
                     disabled={isLoading}
                   >
-                    Submit
+                    Sign Up
                   </button>
                 </div>
               </form>

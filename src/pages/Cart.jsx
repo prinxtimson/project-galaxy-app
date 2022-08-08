@@ -1,12 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
 import CounterInput from "../components/CounterInput";
 import Layout from "../components/Layout";
 
+import { removeFromCart, update } from "../features/cart/cartSlice";
+
 const Cart = () => {
-  const [order, setOrder] = useState(ITEMS);
   const [coupon, setCoupon] = useState("");
+
+  const { cart, isSuccess, isError, message } = useSelector(
+    (state) => state.cart
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+  }, [cart, isError, isSuccess, message]);
+
+  const onDelete = (data) => {
+    dispatch(removeFromCart(data));
+  };
 
   return (
     <Layout>
@@ -31,19 +50,11 @@ const Cart = () => {
                       <div className="col-2 text-center">Total</div>
                     </div>
                   </li>
-                  {order.map((item, ind) => {
+                  {cart.map((item, ind) => {
                     const updateQty = (val) => {
-                      item.qty = val;
-                      let prevOrder = [...order];
-                      prevOrder.splice(ind, 1, { ...item });
-                      setOrder(prevOrder);
+                      dispatch(update({ ...item, qty: val }));
                     };
 
-                    const onDelete = () => {
-                      let prevOrder = [...order];
-                      prevOrder.splice(ind, 1);
-                      setOrder(prevOrder);
-                    };
                     return (
                       <li key={ind} className="border ">
                         <div className="row align-items-center py-2">
@@ -51,7 +62,7 @@ const Cart = () => {
                             <button
                               type="button"
                               className="btn"
-                              onClick={onDelete}
+                              onClick={() => onDelete(item)}
                             >
                               <FaTrash />
                             </button>
@@ -64,7 +75,24 @@ const Cart = () => {
                               className="rounded"
                             />
                           </div>
-                          <div className="col-4">{item.name}</div>
+                          <div className="col-4">
+                            <p className="mb-0">
+                              <strong>{item.name}</strong>
+                            </p>
+
+                            {item.extras.length > 0 && (
+                              <p>
+                                <span className="fw-bolder">Extras: </span>
+                                {item.extras.map((extra, i) =>
+                                  item.extras.length - 1 === i ? (
+                                    <span key={i}>{`${extra.name}`}</span>
+                                  ) : (
+                                    <span key={i}>{`${extra.name}, `}</span>
+                                  )
+                                )}
+                              </p>
+                            )}
+                          </div>
                           <div className="col-2">
                             <CounterInput
                               value={item.qty}
@@ -72,10 +100,10 @@ const Cart = () => {
                             />
                           </div>
                           <div className="col-2 text-center">
-                            {item.price.toFixed(2)}
+                            £{item.price.toFixed(2)}
                           </div>
                           <div className="col-2 text-center">
-                            {(item.qty * item.price).toFixed(2)}
+                            £{(item.qty * item.price).toFixed(2)}
                           </div>
                         </div>
                       </li>
@@ -121,7 +149,7 @@ const Cart = () => {
                         <div className="">
                           <p className="mb-0">Delivery Fee </p>
                         </div>
-                        <div className="">{"20.00"}</div>
+                        <div className="">{"£20.00"}</div>
                       </div>
                       <small
                         className="text-muted lh-1"
@@ -133,7 +161,8 @@ const Cart = () => {
                     <li className="d-flex pb-2 justify-content-between">
                       <div className="">Sub Total</div>
                       <div className="">
-                        {order
+                        £
+                        {cart
                           .reduce((total, item) => {
                             let subTotal = item.price * item.qty;
 
@@ -145,7 +174,8 @@ const Cart = () => {
                     <li className="d-flex justify-content-between border-top pt-2">
                       <div className="">Total</div>
                       <div className="">
-                        {order
+                        £
+                        {cart
                           .reduce((total, item) => {
                             let subTotal = item.price * item.qty;
 
@@ -163,7 +193,7 @@ const Cart = () => {
                   <Link className="btn btn-warning" to="#">
                     Pay with Paypal
                   </Link>
-                  <Link className="text-center" to="#">
+                  <Link className="text-center" to="/menu">
                     Continue Shopping
                   </Link>
                 </div>
@@ -177,24 +207,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
-const ITEMS = [
-  {
-    img: "./images/veg_img.jpg",
-    name: "Vegetable Spring Roll",
-    price: 10.5,
-    qty: 1,
-  },
-  {
-    img: "./images/veg_img_2.jpg",
-    name: "Salad",
-    price: 3.5,
-    qty: 2,
-  },
-  {
-    img: "./images/veg_img_4.jpg",
-    name: "Sweet & Sour Chicken",
-    price: 13.0,
-    qty: 1,
-  },
-];

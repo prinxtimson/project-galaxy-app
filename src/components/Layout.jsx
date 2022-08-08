@@ -24,7 +24,7 @@ const Layout = ({ children }) => {
   return (
     <div
       style={{
-        backgroundImage: "url(./images/veg_img_5.jpg)",
+        backgroundImage: "url(/images/veg_img_5.jpg)",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
