@@ -1,23 +1,12 @@
-import { useState } from "react";
+//import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import Layout from "../components/Layout";
 
 const Payment = () => {
-  const [order] = useState([
-    {
-      img: "./images/veg_img.jpg",
-      name: "Vegetable Spring Roll",
-      price: 10.5,
-      qty: 1,
-    },
-    {
-      img: "./images/veg_img_2.jpg",
-      name: "Salad",
-      price: 3.5,
-      qty: 2,
-    },
-  ]);
+  const { cart } = useSelector((state) => state.cart);
+
   return (
     <Layout>
       <div className="container">
@@ -36,7 +25,7 @@ const Payment = () => {
                     <h5>Items (1)</h5>
 
                     <ul className="ps-0">
-                      {order.map((item, ind) => {
+                      {cart.map((item, ind) => {
                         return (
                           <li key={ind} className="border-top ">
                             <div className="row align-items-center py-2">
@@ -65,11 +54,20 @@ const Payment = () => {
                   <div className="mb-4">
                     <div className="d-flex justify-content-between">
                       <p className="">Sub Total</p>
-                      <p className="">$124.00</p>
+                      <p className="">
+                        £
+                        {cart
+                          .reduce((total, item) => {
+                            let subTotal = item.price * item.qty;
+
+                            return total + subTotal;
+                          }, 0)
+                          .toFixed(2)}
+                      </p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className="">Delivery Fee</p>
-                      <p className="">$20.00</p>
+                      <p className="">£20.00</p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className="">Discount Code</p>
@@ -81,7 +79,17 @@ const Payment = () => {
                     </div>
                     <div className="d-flex justify-content-between">
                       <p className="">Total</p>
-                      <p className="">$145.00</p>
+                      <p className="">
+                        £
+                        {(
+                          20 +
+                          cart.reduce((total, item) => {
+                            let subTotal = item.price * item.qty;
+
+                            return total + subTotal;
+                          }, 0)
+                        ).toFixed(2)}
+                      </p>
                     </div>
                     <div className="d-flex justify-content-between">
                       <div className=""></div>
