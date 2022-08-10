@@ -13,6 +13,16 @@ const OrderTracking = () => {
     zoom: 12,
   };
 
+  const onChangeText = (e) => {
+    // const newProducts = products.filter((prod) => {
+    //   const { name, description } = prod;
+    //   const prodData = `${name.toUpperCase()} ${description.toUpperCase()}`;
+    //   const searchQuery = e.target.value.toUpperCase();
+    //   return prodData.indexOf(searchQuery) > -1;
+    // });
+    // setResult(newProducts);
+  };
+
   useEffect(() => {
     loadGoogleMaps(() => {
       setGoogleMapsReady(true);
@@ -29,9 +39,26 @@ const OrderTracking = () => {
         <div className="mb-5">
           <h2>Order Tracking</h2>
         </div>
-
+        <div className="mb-3">
+          <form
+            className="d-flex"
+            role="search"
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <input
+              className="form-control form-control-lg me-2"
+              type="search"
+              placeholder="Tracking Number"
+              aria-label="Search"
+              onChange={onChangeText}
+            />
+            <button className="btn btn-success btn-lg" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
         <div className="">
-          <div className="card my-5">
+          <div className="card my-2">
             <div className="card-body mt-2">
               <h5 className="card-title ms-4">{Order.date}</h5>
               <div className="my-4">
@@ -77,7 +104,7 @@ const OrderTracking = () => {
           </div>
         </div>
 
-        <div className="">
+        <div className="rounded my-4">
           {googleMapsReady && (
             <div className="">
               <GMap

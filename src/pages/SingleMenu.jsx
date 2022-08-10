@@ -1,31 +1,52 @@
 import { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import Layout from "../components/Layout";
-import { clear, getProductById } from "../features/product/productSlice";
+import {
+  clear,
+  getProductById,
+  review,
+} from "../features/product/productSlice";
 import { addOrRemove, reset } from "../features/favorite/favoriteSlice";
 import { addToCart, reset as resetCart } from "../features/cart/cartSlice";
 
 const SingleMenu = () => {
   const [items, setItems] = useState([]);
+  const [comment, setComment] = useState("");
   const [qty, setQty] = useState(1);
   const { id } = useParams();
 
   const dispatch = useDispatch();
 
+  const { user } = useSelector((state) => state.auth);
   const { product } = useSelector((state) => state.product);
   const {
     isError: error,
     isSuccess: success,
     message: msg,
   } = useSelector((state) => state.cart);
+
   const { favorites, isError, isSuccess, message } = useSelector(
     (state) => state.favorite
   );
+
+  const onSubmit = (e) => {
+    let reviewData = {
+      id: uuid(),
+      comment,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    };
+    dispatch(review(product.id, reviewData));
+  };
 
   const onAddToCart = () => {
     let data = {
@@ -88,7 +109,7 @@ const SingleMenu = () => {
   return (
     <Layout>
       <div className="glass container mt-5 p-4">
-        <div className="">
+        <div className="my-3">
           {product && (
             <div className="row">
               <div className="col-12 col-md-5">
@@ -195,6 +216,42 @@ const SingleMenu = () => {
               </div>
             </div>
           )}
+        </div>
+
+        <div className="my-4 card">
+          <div className="mt-4 text-center">
+            <h3>Review ({product?.reviews.length})</h3>
+          </div>
+          <div className="m-4">
+            {user ? (
+              <form className="" onSubmit={onSubmit}>
+                <div class="mb-3">
+                  <label htmlFor="review" className="form-label">
+                    Leave a review
+                  </label>
+                  <textarea
+                    className="form-control"
+                    id="review"
+                    value={comment}
+                    rows="3"
+                    onChange={(e) => setComment(e.target.value)}
+                  ></textarea>
+                </div>
+                <div className="">
+                  <button type="submit" className="btn btn-primary">
+                    Submit
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="">
+                <p>
+                  Please <Link to="/login">login</Link> or{" "}
+                  <Link to="/register">register</Link> to review{" "}
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </Layout>

@@ -1,5 +1,6 @@
 /* eslint-disable no-throw-literal */
 import axios from "axios";
+import { v4 as uuid } from "uuid";
 
 const API_URL = "/api/users/";
 
@@ -10,7 +11,9 @@ const register = async (userData) => {
 
   if (isExist) throw { message: "User alreaady exist." };
 
-  sessionStorage.setItem(userData.email, JSON.stringify(userData));
+  const id = uuid();
+
+  sessionStorage.setItem(userData.email, JSON.stringify({ ...userData, id }));
 
   if (userData) {
     localStorage.setItem("user", JSON.stringify(userData));

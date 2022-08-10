@@ -21,7 +21,8 @@
         "name": "French Fries",
         "price": 2.0
       }
-    ]
+    ],
+    "reviews": []
   },
   {
     "id": 2,
@@ -45,7 +46,8 @@
         "name": "French Fries",
         "price": 2.0
       }
-    ]
+    ],
+    "reviews": []
   },
   {
     "id": 3,
@@ -69,7 +71,8 @@
         "name": "French Fries",
         "price": 2.0
       }
-    ]
+    ],
+    "reviews": []
   },
   {
     "id": 4,
@@ -93,7 +96,8 @@
         "name": "French Fries",
         "price": 2.0
       }
-    ]
+    ],
+    "reviews": []
   },
   {
     "id": 5,
@@ -117,7 +121,8 @@
         "name": "French Fries",
         "price": 2.0
       }
-    ]
+    ],
+    "reviews": []
   },
   {
     "id": 6,
@@ -141,6 +146,7 @@
         "name": "French Fries",
         "price": 2.0
       }
-    ]
+    ],
+    "reviews": []
   }
 ]

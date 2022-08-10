@@ -26,7 +26,7 @@ function Header({ isScrolled }) {
   return (
     <header
       className={`navbar navbar-expand-lg sticky-top  ${
-        isScrolled ? "bg-white text-dark" : "bg-transparent text-light"
+        isScrolled ? "bg-white text-dark" : "bg-dark bg-opacity-50 text-light"
       } `}
     >
       <div className="container">

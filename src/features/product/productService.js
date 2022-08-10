@@ -19,7 +19,18 @@ const getProductById = async (id) => {
   return data;
 };
 
+const review = async (id, data) => {
+  let products = productDB.find((val) => val.id == id);
+
+  if (!products) throw { message: "Product not found" };
+
+  products.reviews = [...products.reviews, data];
+
+  return products;
+};
+
 const productService = {
+  review,
   getProducts,
   getProductById,
 };

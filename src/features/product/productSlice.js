@@ -23,6 +23,22 @@ export const getProducts = createAsyncThunk("product/get", async (thunkAPI) => {
   }
 });
 
+export const review = createAsyncThunk(
+  "product/review",
+  async (id, data, thunkAPI) => {
+    try {
+      return await productService.review(id, data);
+    } catch (err) {
+      const msg =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+
+      return thunkAPI.rejectWithValue(msg);
+    }
+  }
+);
+
 export const getProductById = createAsyncThunk(
   "product/get-single-product",
   async (id, thunkAPI) => {
@@ -81,6 +97,24 @@ export const productSlice = createSlice({
         state.products = action.payload;
       })
       .addCase(getProducts.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(review.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(review.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        let index = state.cart.findIndex(
+          (data) => data.id === action.payload.id
+        );
+        state.cart.splice(index, 1, action.payload);
+        state.products = [...state.products];
+        state.product = action.payload;
+      })
+      .addCase(review.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
