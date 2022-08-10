@@ -29,8 +29,8 @@ const Cart = () => {
 
   return (
     <Layout>
-      <div className="container mt-5">
-        <div className="mb-5">
+      <div className="glass container mt-5 h-100">
+        <div className="my-5">
           <h2>Cart</h2>
         </div>
         <div className="row">

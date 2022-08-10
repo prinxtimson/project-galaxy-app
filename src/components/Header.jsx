@@ -5,6 +5,7 @@ import {
   MdOutlineLock,
   MdFavoriteBorder,
   MdHistory,
+  MdMap,
 } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -24,13 +25,19 @@ function Header({ isScrolled }) {
 
   return (
     <header
-      className={`navbar navbar-expand-lg sticky-top ${
-        isScrolled ? "bg-white" : "bg-transparent"
+      className={`navbar navbar-expand-lg sticky-top  ${
+        isScrolled ? "bg-white text-dark" : "bg-transparent text-light"
       } `}
     >
       <div className="container">
         <div className="navbar-brand flex-grow-1 ">
-          <Link to="/">Blacky Restaurant</Link>
+          <Link to="/">
+            <img
+              src="/blacky_logo.jpg"
+              height={80}
+              alt="Blacky Restaurant Logo"
+            />
+          </Link>
         </div>
         <div className="navbar-brand d-block d-lg-none">
           <ul className="d-flex py-1 mb-0">
@@ -79,6 +86,11 @@ function Header({ isScrolled }) {
                       </Link>
                     </li>
                     <li>
+                      <Link className="dropdown-item" to="/order-tracking">
+                        <MdMap /> Order Tracking
+                      </Link>
+                    </li>
+                    <li>
                       <Link className="dropdown-item" to="/order-history">
                         <MdHistory /> History
                       </Link>
@@ -117,6 +129,11 @@ function Header({ isScrolled }) {
                       </Link>
                     </li>
                     <li>
+                      <Link className="dropdown-item" to="/order-tracking">
+                        <MdMap /> Order Tracking
+                      </Link>
+                    </li>
+                    <li>
                       <Link className="dropdown-item" to="/order-history">
                         <MdHistory /> History
                       </Link>
@@ -146,22 +163,52 @@ function Header({ isScrolled }) {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link
+                className={`nav-link ${
+                  isScrolled ? "text-dark" : " text-light"
+                } `}
+                to="/"
+              >
                 Home
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/menu">
+              <Link
+                className={`nav-link ${
+                  isScrolled ? "text-dark" : " text-light"
+                } `}
+                to="/our-restaurant"
+              >
+                Our Restaurant
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className={`nav-link ${
+                  isScrolled ? "text-dark" : " text-light"
+                } `}
+                to="/menu"
+              >
                 Menu
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="#">
+              <Link
+                className={`nav-link ${
+                  isScrolled ? "text-dark" : " text-light"
+                } `}
+                to="/reservation"
+              >
                 Reservation
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="#">
+              <Link
+                className={`nav-link ${
+                  isScrolled ? "text-dark" : " text-light"
+                } `}
+                to="/private-events"
+              >
                 Private Event
               </Link>
             </li>
@@ -211,10 +258,16 @@ function Header({ isScrolled }) {
                       </Link>
                     </li>
                     <li>
+                      <Link className="dropdown-item" to="/order-tracking">
+                        <MdMap /> Order Tracking
+                      </Link>
+                    </li>
+                    <li>
                       <Link className="dropdown-item" to="/order-history">
                         <MdHistory /> History
                       </Link>
                     </li>
+
                     <li>
                       <Link className="dropdown-item" to="/favourites">
                         <MdFavoriteBorder /> Favourites
@@ -246,6 +299,11 @@ function Header({ isScrolled }) {
                     <li>
                       <Link className="dropdown-item" to="/cart">
                         <BsCart2 /> View Cart
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="dropdown-item" to="/order-tracking">
+                        <MdMap /> Order Tracking
                       </Link>
                     </li>
                     <li>

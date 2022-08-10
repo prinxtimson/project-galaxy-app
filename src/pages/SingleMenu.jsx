@@ -87,8 +87,8 @@ const SingleMenu = () => {
 
   return (
     <Layout>
-      <div className="container">
-        <div className="mt-5">
+      <div className="glass container mt-5 p-4">
+        <div className="">
           {product && (
             <div className="row">
               <div className="col-12 col-md-5">

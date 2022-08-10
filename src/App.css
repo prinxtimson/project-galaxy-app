@@ -37,3 +37,15 @@
     transform: translateY(0px);
   }
 }
+
+.glass {
+  background: white;
+  background: linear-gradient(
+    to right bottom,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-radius: 1rem;
+  backdrop-filter: blur(0.5rem);
+  padding: 2.5rem !important;
+}

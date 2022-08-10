@@ -58,7 +58,7 @@ const FoodMenu = () => {
     <Layout>
       <div className="container mt-5">
         <div className="mb-4">
-          <h2>Menu</h2>
+          <h2 className="text-light">Menu</h2>
         </div>
         <div className="mb-5">
           <div className="py-4">

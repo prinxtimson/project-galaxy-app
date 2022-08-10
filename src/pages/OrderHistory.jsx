@@ -3,7 +3,7 @@ import Layout from "../components/Layout";
 const OrderHistory = () => {
   return (
     <Layout>
-      <div className="container mt-5">
+      <div className="glass container mt-5">
         <div className="mb-5">
           <h2>Order History</h2>
         </div>
