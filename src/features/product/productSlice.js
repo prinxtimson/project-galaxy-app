@@ -23,11 +23,11 @@ export const getProducts = createAsyncThunk("product/get", async (thunkAPI) => {
   }
 });
 
-export const review = createAsyncThunk(
+export const saveReview = createAsyncThunk(
   "product/review",
-  async (id, data, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      return await productService.review(id, data);
+      return await productService.saveReview(data);
     } catch (err) {
       const msg =
         (err.response && err.response.data && err.response.data.message) ||
@@ -80,7 +80,6 @@ export const productSlice = createSlice({
       })
       .addCase(getProductById.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.isSuccess = true;
         state.product = action.payload;
       })
       .addCase(getProductById.rejected, (state, action) => {
@@ -101,20 +100,22 @@ export const productSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(review.pending, (state) => {
+      .addCase(saveReview.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(review.fulfilled, (state, action) => {
+      .addCase(saveReview.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        let index = state.cart.findIndex(
-          (data) => data.id === action.payload.id
+        let index = state.products.findIndex(
+          (data) => data.id === action.payload.product_id
         );
-        state.cart.splice(index, 1, action.payload);
+        let product = state.product;
+        product.reviews = [...product.reviews, action.payload];
+        state.products.splice(index, 1, product);
         state.products = [...state.products];
-        state.product = action.payload;
+        state.product = product;
       })
-      .addCase(review.rejected, (state, action) => {
+      .addCase(saveReview.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

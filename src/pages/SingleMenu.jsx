@@ -10,7 +10,8 @@ import Layout from "../components/Layout";
 import {
   clear,
   getProductById,
-  review,
+  saveReview,
+  reset as pReset,
 } from "../features/product/productSlice";
 import { addOrRemove, reset } from "../features/favorite/favoriteSlice";
 import { addToCart, reset as resetCart } from "../features/cart/cartSlice";
@@ -24,7 +25,12 @@ const SingleMenu = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { product } = useSelector((state) => state.product);
+  const {
+    product,
+    isError: pError,
+    isSuccess: pSuccess,
+    message: pMsg,
+  } = useSelector((state) => state.product);
   const {
     isError: error,
     isSuccess: success,
@@ -36,8 +42,10 @@ const SingleMenu = () => {
   );
 
   const onSubmit = (e) => {
+    e.preventDefault();
     let reviewData = {
       id: uuid(),
+      product_id: product.id,
       comment,
       user: {
         id: user.id,
@@ -45,7 +53,7 @@ const SingleMenu = () => {
         email: user.email,
       },
     };
-    dispatch(review(product.id, reviewData));
+    dispatch(saveReview(reviewData));
   };
 
   const onAddToCart = () => {
@@ -72,8 +80,22 @@ const SingleMenu = () => {
   };
 
   useEffect(() => {
+    if (pError) {
+      toast.error(pMsg);
+    }
+
+    if (pSuccess) {
+      toast.success("Review had been submitted");
+      setComment("");
+    }
+
+    dispatch(pReset());
+  }, [product, pError, pSuccess, pMsg, dispatch]);
+
+  useEffect(() => {
     dispatch(getProductById(id));
-    dispatch(reset());
+
+    dispatch(pReset());
 
     return () => dispatch(clear());
   }, [dispatch, id]);
@@ -111,18 +133,18 @@ const SingleMenu = () => {
       <div className="glass container mt-5 p-4">
         <div className="my-3">
           {product && (
-            <div className="row">
-              <div className="col-12 col-md-5">
-                <div className="card">
+            <div className="row gap-4 gap-lg-0">
+              <div className="col-12 col-lg-5">
+                <div className="">
                   <img
                     src={product.img}
                     alt=""
                     style={{ height: 300, width: "100%" }}
-                    className="card-img-top"
+                    className="rounded"
                   />
                 </div>
               </div>
-              <div className="col-12 col-md-7">
+              <div className="col-12 col-lg-7">
                 <div className="card">
                   <div className="card-body p-5">
                     <h4 className="card-title border-bottom">{product.name}</h4>
@@ -225,7 +247,7 @@ const SingleMenu = () => {
           <div className="m-4">
             {user ? (
               <form className="" onSubmit={onSubmit}>
-                <div class="mb-3">
+                <div className="mb-3">
                   <label htmlFor="review" className="form-label">
                     Leave a review
                   </label>

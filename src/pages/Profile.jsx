@@ -60,7 +60,7 @@ const Profile = () => {
 
   return (
     <Layout>
-      <div className="container mt-5">
+      <div className="glass container mt-5">
         <div className="">
           <h2>My Account</h2>
         </div>

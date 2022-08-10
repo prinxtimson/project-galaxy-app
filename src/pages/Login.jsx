@@ -56,8 +56,8 @@ function Login() {
         <div className="card w-100" style={{ maxWidth: "460px" }}>
           <div className="card-body p-4">
             <section className="heading">
-              <h3>Login</h3>
-              <p>Please enter your details to login</p>
+              <h3>Sign in</h3>
+              <p>Please enter your details to sign in</p>
             </section>
             <section className="form">
               <form onSubmit={onSubmit}>
@@ -127,7 +127,7 @@ function Login() {
                     disabled={isLoading}
                     className="btn btn-primary btn-lg"
                   >
-                    Submit
+                    Signin
                   </button>
                 </div>
               </form>
