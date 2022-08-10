@@ -46,6 +46,6 @@
     rgba(255, 255, 255, 0.3)
   );
   border-radius: 1rem;
-  backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(2rem);
   padding: 2.5rem !important;
 }
