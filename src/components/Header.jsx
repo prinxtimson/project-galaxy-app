@@ -7,12 +7,13 @@ import {
   MdHistory,
   MdMap,
 } from "react-icons/md";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, reset } from "../features/auth/authSlice";
 
 function Header({ isScrolled }) {
   const navigate = useNavigate();
+  let location = useLocation();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cart } = useSelector((state) => state.cart);
@@ -25,7 +26,9 @@ function Header({ isScrolled }) {
 
   return (
     <header
-      className={`navbar navbar-expand-lg sticky-top  ${
+      className={`navbar navbar-expand-lg sticky-top ${
+        location.pathname === "/" ? "position-absolute top-0" : ""
+      } w-100 ${
         isScrolled ? "bg-white text-dark" : "bg-dark bg-opacity-50 text-light"
       } `}
     >

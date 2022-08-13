@@ -17,10 +17,21 @@ function Register() {
     password: "",
     confirm_password: "",
     visible: false,
+    accept_terms: false,
+    newsletter: false,
   });
 
-  const { name, email, username, phone, password, confirm_password, visible } =
-    formData;
+  const {
+    name,
+    email,
+    username,
+    phone,
+    password,
+    confirm_password,
+    visible,
+    newsletter,
+    accept_terms,
+  } = formData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -220,7 +231,15 @@ function Register() {
                     <input
                       className="form-check-input"
                       type="checkbox"
+                      checked={accept_terms}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          accept_terms: e.target.checked,
+                        })
+                      }
                       id="autoSizingCheck"
+                      required
                     />
                     <label
                       className="form-check-label"
@@ -228,11 +247,17 @@ function Register() {
                       style={{ fontSize: 13 }}
                     >
                       I have read and agree to Blacky's{" "}
-                      <Link to="#" className="text-decoration-underline">
+                      <Link
+                        to="/privacy-policy"
+                        className="text-decoration-underline"
+                      >
                         Privacy Policy
                       </Link>{" "}
                       and{" "}
-                      <Link to="#" className="text-decoration-underline">
+                      <Link
+                        to="/terms-and-conditions"
+                        className="text-decoration-underline"
+                      >
                         Terms and Conditions
                       </Link>
                     </label>
@@ -242,6 +267,13 @@ function Register() {
                       className="form-check-input"
                       type="checkbox"
                       id="autoSizingCheck"
+                      checked={newsletter}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          newsletter: e.target.checked,
+                        })
+                      }
                     />
                     <label
                       className="form-check-label"

@@ -44,7 +44,7 @@ const Favourite = () => {
                 favorites.map((val, ind) => (
                   <div key={ind} className="col-sm-12 col-md-6 col-lg-4 mb-4">
                     <div className="card text-center">
-                      <Link to="#">
+                      <Link to={`/menu/${val.id}`}>
                         <img
                           src={val.img}
                           style={{ height: 200, width: "100%" }}
@@ -54,7 +54,7 @@ const Favourite = () => {
                       </Link>
                       <div className="card-body">
                         <h5 className="card-title">
-                          <Link to="#">{val.name}</Link>
+                          <Link to={`/menu/${val.id}`}>{val.name}</Link>
                         </h5>
                         <p className="card-text">
                           {val.discount ? (

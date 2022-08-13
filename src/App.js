@@ -26,6 +26,8 @@ import OurRestaurant from "./pages/OurRestaurant";
 import PrivateEvents from "./pages/PrivateEvents";
 import Reservation from "./pages/Reservation";
 import OrderTracking from "./pages/OrderTracking";
+import Privacy from "./pages/Privacy";
+import TermsConditions from "./pages/TermsConditions";
 
 function App() {
   return (
@@ -39,6 +41,8 @@ function App() {
           <Route path="/account" element={<Profile />} />
           <Route path="/favourites" element={<Favourite />} />
           <Route path="/menu" element={<FoodMenu />} />
+          <Route path="/privacy-policy" element={<Privacy />} />
+          <Route path="/terms-and-conditions" element={<TermsConditions />} />
           <Route path="/menu/:id" element={<SingleMenu />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} />
