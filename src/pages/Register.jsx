@@ -126,9 +126,7 @@ function Register() {
                     className={
                       !password
                         ? "form-control"
-                        : password.match(
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/
-                          )
+                        : password.match(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)
                         ? "form-control is-valid"
                         : "form-control is-invalid"
                     }

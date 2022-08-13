@@ -115,12 +115,12 @@ function Header({ isScrolled }) {
                   <>
                     <li>
                       <Link className="dropdown-item" to="/login">
-                        <MdOutlineLock /> Login
+                        <MdOutlineLock /> Sign In
                       </Link>
                     </li>
                     <li>
                       <Link className="dropdown-item" to="/register">
-                        <BsPersonPlus /> Register
+                        <BsPersonPlus /> Sign Up
                       </Link>
                     </li>
                     <li>
@@ -288,12 +288,12 @@ function Header({ isScrolled }) {
                   <>
                     <li>
                       <Link className="dropdown-item" to="/login">
-                        <MdOutlineLock /> Login
+                        <MdOutlineLock /> Sign In
                       </Link>
                     </li>
                     <li>
                       <Link className="dropdown-item" to="/register">
-                        <BsPersonPlus /> Register
+                        <BsPersonPlus /> Sign Up
                       </Link>
                     </li>
                     <li>

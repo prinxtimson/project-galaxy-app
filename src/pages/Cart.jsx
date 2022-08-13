@@ -3,6 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaTrash } from "react-icons/fa";
+import { Dropdown } from "primereact/dropdown";
+import { InputNumber } from "primereact/inputnumber";
 import CounterInput from "../components/CounterInput";
 import Layout from "../components/Layout";
 
@@ -10,12 +12,14 @@ import { removeFromCart, update } from "../features/cart/cartSlice";
 
 const Cart = () => {
   const [coupon, setCoupon] = useState("");
+  const [points, setPoints] = useState(0);
+  const [mode, setMode] = useState("");
 
   const { cart, isSuccess, isError, message } = useSelector(
     (state) => state.cart
   );
 
-  console.log(cart);
+  const selectItems = ["Eat In", "Eat Out"];
 
   const dispatch = useDispatch();
 
@@ -31,13 +35,13 @@ const Cart = () => {
 
   return (
     <Layout>
-      <div className="glass container mt-5 h-100">
+      <div className="glass container p-3 p-sm-8 mt-5 h-100">
         <div className="my-5">
           <h2>Cart</h2>
         </div>
         {cart?.length > 0 ? (
           <div className="row">
-            <div className="col-12 col-md-8">
+            <div className="col-12 col-lg-8">
               <div className="card p-4 ">
                 <div className="py-2 px-3">
                   <h5>Order Summary</h5>
@@ -88,9 +92,13 @@ const Cart = () => {
                                   <span className="fw-bolder">Extras: </span>
                                   {item.extras?.map((extra, i) =>
                                     item.extras?.length - 1 === i ? (
-                                      <span key={i}>{`${extra.name}`}</span>
+                                      <span
+                                        key={i}
+                                      >{`${extra.qty} ${extra.name}`}</span>
                                     ) : (
-                                      <span key={i}>{`${extra.name}, `}</span>
+                                      <span
+                                        key={i}
+                                      >{`${extra.qty} ${extra.name}, `}</span>
                                     )
                                   )}
                                 </p>
@@ -116,11 +124,11 @@ const Cart = () => {
                 </div>
               </div>
             </div>
-            <div className="col-12 col-md-4">
+            <div className="col-12 col-lg-4 mt-4">
               <div className="card">
                 <div className="card-body">
                   <div className="">
-                    <label className="form-label">Enter Coupon</label>
+                    <label className="form-label">Discount Code</label>
                     <form className="d-flex">
                       <div className=" mb-3">
                         <input
@@ -129,7 +137,7 @@ const Cart = () => {
                           id="coupon"
                           name="coupon"
                           value={coupon}
-                          placeholder="Enter Coupon"
+                          placeholder="Discount Code"
                           onChange={(e) => setCoupon(e.target.value)}
                           required
                         />
@@ -145,14 +153,59 @@ const Cart = () => {
                       </div>
                     </form>
                   </div>
-                  <div className=" mt-4">
+                  <div className="mt-3">
+                    <div
+                      className="row align-items-center mb-2"
+                      style={{ maxWidth: 456 }}
+                    >
+                      <label
+                        className="col-8 col-sm-6 col-form-label"
+                        htmlFor="Loyalty Points Used"
+                      >
+                        Loyalty Points Used
+                      </label>
+                      <div className="col-4 col-sm-6">
+                        <InputNumber
+                          value={points}
+                          showButtons
+                          onValueChange={(e) => setPoints(e.value)}
+                          min={0}
+                          max={100}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-3">
+                    <div
+                      className="row align-items-center mb-2"
+                      style={{ maxWidth: 456 }}
+                    >
+                      <label
+                        className="col-8 col-sm-6 col-form-label"
+                        htmlFor="Loyalty Points Used"
+                      >
+                        Eat-in/Eat-out
+                      </label>
+                      <div className="col-4 col-sm-6">
+                        <Dropdown
+                          value={mode}
+                          options={selectItems}
+                          onChange={(e) => setMode(e.value)}
+                          placeholder="Select"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className=" mt-3">
                     <ul className="ps-0">
                       <li className=" pb-2">
                         <div className="d-flex justify-content-between lh-1">
                           <div className="">
                             <p className="mb-0">Delivery Fee </p>
                           </div>
-                          <div className="">{"£20.00"}</div>
+                          <div className="">
+                            {mode === "Eat In" ? "£0.00" : "£20.00"}
+                          </div>
                         </div>
                         <small
                           className="text-muted lh-1"

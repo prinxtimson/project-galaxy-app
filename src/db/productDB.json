@@ -5,6 +5,7 @@
     "name": "Beef with Garlic",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae lacus in ligula faucibus convallis et sit amet nulla. In nec rhoncus quam.",
     "price": 12.0,
+    "discount": 9,
     "extras": [
       {
         "id": 1,
@@ -30,6 +31,7 @@
     "name": "Stir Fry Prawn Noodles",
     "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam vitae lacus in ligula faucibus convallis et sit amet nulla. In nec rhoncus quam.",
     "price": 10.0,
+    "discount": 8,
     "extras": [
       {
         "id": 1,

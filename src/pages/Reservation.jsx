@@ -32,7 +32,7 @@ const Reservation = () => {
 
   return (
     <Layout>
-      <div className="glass container mt-5">
+      <div className="glass container mt-5 p-4 p-sm-8">
         <div className="mb-5">
           <h2>Reservation</h2>
         </div>

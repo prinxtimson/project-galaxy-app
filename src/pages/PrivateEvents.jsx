@@ -41,8 +41,8 @@ const PrivateEvents = () => {
           <div className="mb-3">
             <h4>Or send us mail:</h4>
             <div className="row" style={{ maxWidth: 450 }}>
-              <h5 className="col-4">E-mail: </h5>
-              <h5 className="col-6">
+              <h5 className="col-sm-4">E-mail: </h5>
+              <h5 className="col-sm-6">
                 <a href="mailto:blackysrestaurant@gmail.com">
                   blackysrestaurant@gmail.com
                 </a>

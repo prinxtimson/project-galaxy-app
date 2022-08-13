@@ -3,6 +3,7 @@ import { v4 as uuid } from "uuid";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import CounterInput from "../components/Counter";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -60,22 +61,30 @@ const SingleMenu = () => {
     let data = {
       ...product,
       id: uuid(),
-      price:
-        product.price + items.reduce((total, item) => total + item.price, 0),
+      price: product.discount
+        ? product.discount +
+          items.reduce((total, item) => total + item.qty * item.price, 0)
+        : product.price +
+          items.reduce((total, item) => total + item.qty * item.price, 0),
       qty,
       extras: [...items],
     };
     dispatch(addToCart(data));
   };
 
-  const onCheckClick = (e) => {
-    let extra = JSON.parse(e.target.value);
-    if (e.target.checked) {
-      setItems([...items, extra]);
-    } else {
-      let data = items.filter((val) => val.id !== extra.id);
+  const updateExtraQty = (data) => {
+    let index = items.findIndex((val) => val.id === data.id);
 
-      setItems(data);
+    let _items = [...items];
+
+    if (index !== -1 && data.qty > 0) {
+      _items.splice(index, 1, data);
+      setItems([..._items]);
+    } else if (index !== -1 && data.qty < 1) {
+      _items.splice(index, 1);
+      setItems([..._items]);
+    } else {
+      setItems([...items, data]);
     }
   };
 
@@ -94,8 +103,6 @@ const SingleMenu = () => {
 
   useEffect(() => {
     dispatch(getProductById(id));
-
-    dispatch(pReset());
 
     return () => dispatch(clear());
   }, [dispatch, id]);
@@ -130,8 +137,8 @@ const SingleMenu = () => {
 
   return (
     <Layout>
-      <div className="glass container mt-5 p-4">
-        <div className="my-3">
+      <div className="glass container mt-5 p-2 p-sm-5">
+        <div className="my-sm-3">
           {product && (
             <div className="row gap-4 gap-lg-0">
               <div className="col-12 col-lg-5">
@@ -146,11 +153,25 @@ const SingleMenu = () => {
               </div>
               <div className="col-12 col-lg-7">
                 <div className="card">
-                  <div className="card-body p-5">
+                  <div className="card-body p-sm-5">
                     <h4 className="card-title border-bottom">{product.name}</h4>
                     <div className="py-3 border-bottom">
                       <h5 className="card-title">
-                        <small>Price: </small> £{product.price.toFixed(2)}
+                        <small>Price: </small>{" "}
+                        {product.discount ? (
+                          <div className="">
+                            <span className="text-muted fw-bold text-decoration-line-through pe-2">
+                              £{product.price.toFixed(2)}
+                            </span>
+                            <span className="fw-bold">
+                              £{product.discount.toFixed(2)}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="fw-bold">
+                            £{product.price.toFixed(2)}
+                          </span>
+                        )}
                       </h5>
                     </div>
                     <p className="card-text py-4 border-bottom">
@@ -158,27 +179,27 @@ const SingleMenu = () => {
                     </p>
                     <div className="py-2 border-bottom">
                       <p className="card-title border-bottom fw-bold">Extras</p>
-                      <ul>
+                      <ul className="px-0">
                         {product.extras.map((val, index) => (
                           <li key={index}>
-                            <div className="form-check">
-                              <input
-                                className="form-check-input mt-2"
-                                type="checkbox"
-                                value={JSON.stringify(val)}
-                                id={`${index}`}
-                                checked={
-                                  items.filter((item) => item.id === val.id)
-                                    .length > 0
-                                }
-                                onChange={onCheckClick}
-                              />
+                            <div className="d-flex align-items-center mb-2">
                               <label
-                                className="form-check-label"
+                                className="col-8 col-form-label"
                                 htmlFor={`${index}`}
                               >
                                 {`${val.name} (£${val.price.toFixed(2)})`}
                               </label>
+                              <CounterInput
+                                value={
+                                  items.find((item) => item.id === val.id)
+                                    ?.qty || "0"
+                                }
+                                data={
+                                  items?.find((item) => item.id === val.id) ||
+                                  val
+                                }
+                                setValue={updateExtraQty}
+                              />
                             </div>
                           </li>
                         ))}
@@ -186,14 +207,14 @@ const SingleMenu = () => {
                     </div>
                     <div className="">
                       <div className="d-flex my-3 align-items-center">
-                        <div className="row" style={{ width: 150 }}>
+                        <div className="d-flex" style={{ width: 150 }}>
                           <label
                             htmlFor="qty"
-                            className="col-sm-5 col-form-label"
+                            className="me-2 col-sm-5 col-form-label"
                           >
                             Qty
                           </label>
-                          <div className="col-sm-7">
+                          <div className="col-5 col-sm-7">
                             <input
                               type="text"
                               value={qty}
@@ -205,7 +226,7 @@ const SingleMenu = () => {
                         </div>
                         <button
                           type="button"
-                          className="mx-4 btn btn-warning rounded-pill"
+                          className="mx-2 mx-sm-3 flex-shrink-0 btn btn-warning rounded-pill"
                           onClick={onAddToCart}
                         >
                           Add to cart

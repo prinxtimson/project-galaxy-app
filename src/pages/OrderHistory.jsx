@@ -30,7 +30,7 @@ const OrderHistory = () => {
 
   return (
     <Layout>
-      <div className="glass container mt-5">
+      <div className="glass container p-3 p-sm-8 mt-5">
         <div className="mb-5">
           <h2>Order History</h2>
         </div>
@@ -46,7 +46,7 @@ const OrderHistory = () => {
                         {val.items.map((item, index) => (
                           <li key={index} className="my-3">
                             <div className="row align-items-center">
-                              <div className="  col-2 ">
+                              <div className="  col-3 col-sm-2">
                                 <img
                                   src={item.img}
                                   style={{ width: 75, height: 75 }}
@@ -54,7 +54,7 @@ const OrderHistory = () => {
                                   className="rounded"
                                 />
                               </div>
-                              <div className=" col-7">
+                              <div className=" col-6 col-sm-7">
                                 <div className="row">
                                   <div className="col-1">{item.qty}</div>
                                   <div className="col-1">X</div>

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { GMap } from "primereact/gmap";
-import { useRef } from "react";
 
 import { loadGoogleMaps, removeGoogleMaps } from "../GoogleMaps";
 import Layout from "../components/Layout";
@@ -35,7 +34,7 @@ const OrderTracking = () => {
 
   return (
     <Layout>
-      <div className="glass container mt-5">
+      <div className="glass container p-3 p-sm-8 mt-5">
         <div className="mb-5">
           <h2>Order Tracking</h2>
         </div>

@@ -38,7 +38,7 @@ const Checkout = () => {
 
   return (
     <Layout>
-      <div className="container mt-5 bg-white p-4">
+      <div className=" m-3 mt-5  bg-white p-4 rounded">
         <div className="mb-5">
           <h2>Checkout</h2>
         </div>

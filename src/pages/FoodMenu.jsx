@@ -96,8 +96,22 @@ const FoodMenu = () => {
                     <h5 className="card-title">
                       <Link to={`${product.id}`}>{product.name}</Link>
                     </h5>
+
                     <p className="card-text">
-                      <strong className="">£{product.price.toFixed(2)}</strong>
+                      {product.discount ? (
+                        <div className="">
+                          <span className="text-muted fw-bold text-decoration-line-through pe-2">
+                            £{product.price.toFixed(2)}
+                          </span>
+                          <span className="fw-bold">
+                            £{product.discount.toFixed(2)}
+                          </span>
+                        </div>
+                      ) : (
+                        <span className="fw-bold">
+                          £{product.price.toFixed(2)}
+                        </span>
+                      )}
                     </p>
                     <div className="d-flex justify-content-between">
                       <Link to={`${product.id}`} className="btn btn-primary">

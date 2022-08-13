@@ -57,9 +57,18 @@ const Favourite = () => {
                           <Link to="#">{val.name}</Link>
                         </h5>
                         <p className="card-text">
-                          <small className="text-muted">
-                            £{val.price.toFixed(2)}
-                          </small>
+                          {val.discount ? (
+                            <div className="">
+                              <small className="text-muted text-decoration-line-through pe-2">
+                                £{val.price.toFixed(2)}
+                              </small>
+                              <small className="">
+                                £{val.discount.toFixed(2)}
+                              </small>
+                            </div>
+                          ) : (
+                            <small className="">£{val.price.toFixed(2)}</small>
+                          )}
                         </p>
                         <div className="d-flex justify-content-between">
                           <Link
