@@ -13,7 +13,7 @@ const OurRestaurant = () => {
           <div className="mb-5">
             <h4>Manchester</h4>
             <p>
-              Sir Matt Busby Way, Old Tra!ord, Stretford, Manchester M16 0RA
+              Sir Matt Busby Way, Old Trafford, Stretford, Manchester M16 0RA
             </p>
             <div className="">
               <h4>Opening Times</h4>

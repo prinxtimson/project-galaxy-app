@@ -62,7 +62,7 @@ const OrderHistory = () => {
                                 </div>
                               </div>
                               <div className="col-3">
-                                <div>${(item.qty * item.price).toFixed(2)}</div>
+                                <div>£{(item.qty * item.price).toFixed(2)}</div>
                               </div>
                             </div>
                           </li>
@@ -76,7 +76,7 @@ const OrderHistory = () => {
                       </div>
                       <div className="col-3">
                         <h4>
-                          $ {(val.total + val.delivery + val.vat).toFixed(2)}
+                          £ {(val.total + val.delivery + val.vat).toFixed(2)}
                         </h4>
                       </div>
                     </div>

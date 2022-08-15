@@ -81,7 +81,7 @@ const OrderTracking = () => {
                           </div>
                         </div>
                         <div className="col-3">
-                          <div>${(item.quantity * item.price).toFixed(2)}</div>
+                          <div>£{(item.quantity * item.price).toFixed(2)}</div>
                         </div>
                       </div>
                     </li>
@@ -95,7 +95,7 @@ const OrderTracking = () => {
                 </div>
                 <div className="col-3">
                   <h4>
-                    $ {(Order.total + Order.delivery + Order.vat).toFixed(2)}
+                    £ {(Order.total + Order.delivery + Order.vat).toFixed(2)}
                   </h4>
                 </div>
               </div>

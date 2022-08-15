@@ -80,10 +80,10 @@ const Payment = () => {
                               </div>
                               <div className="col-2">{`X ${item.qty}`}</div>
                               <div className="col-2 text-center">
-                                ${item.price.toFixed(2)}
+                                £{item.price.toFixed(2)}
                               </div>
                               <div className="col-2 text-center">
-                                ${(item.qty * item.price).toFixed(2)}
+                                £{(item.qty * item.price).toFixed(2)}
                               </div>
                             </div>
                           </li>
