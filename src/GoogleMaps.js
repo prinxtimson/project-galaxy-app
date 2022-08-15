@@ -1,10 +1,11 @@
+const apiKey = process.env.GOOGLE_API_KEY;
+
 export const loadGoogleMaps = (callback) => {
   const existingScript = document.getElementById("googleMaps");
 
   if (!existingScript) {
     const script = document.createElement("script");
-    script.src =
-      "https://maps.google.com/maps/api/js?key=AIzaSyBU4ueE0ThCJ-LFggsubh8sBXjmhtZbp_Q";
+    script.src = `https://maps.google.com/maps/api/js?key=${apiKey}`;
     script.id = "googleMaps";
     script.async = true;
     script.defer = true;
