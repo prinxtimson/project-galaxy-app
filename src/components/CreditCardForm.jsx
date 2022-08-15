@@ -3,7 +3,7 @@ const CreditCardForm = ({ data, onChange, onSubmit, onCardClose }) => {
     <div
       className="modal fade"
       id="creditCardModal"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="creditCardModalLabel"
       aria-hidden="true"
     >
@@ -23,7 +23,7 @@ const CreditCardForm = ({ data, onChange, onSubmit, onCardClose }) => {
           <div className="modal-body">
             <div className="row g-3">
               <div className="col-12">
-                <label htlmFor="cardname" className="form-label">
+                <label htmlFor="cardname" className="form-label">
                   Name on Card
                 </label>
                 <input
@@ -37,7 +37,7 @@ const CreditCardForm = ({ data, onChange, onSubmit, onCardClose }) => {
                 />
               </div>
               <div className="col-12">
-                <label htlmFor="cardnumber" className="form-label">
+                <label htmlFor="cardnumber" className="form-label">
                   Credit card number
                 </label>
                 <input
@@ -51,13 +51,12 @@ const CreditCardForm = ({ data, onChange, onSubmit, onCardClose }) => {
                 />
               </div>
               <div className="col-md-6">
-                <label htlmFor="exp" className="form-label">
+                <label htmlFor="exp" className="form-label">
                   Expiry
                 </label>
                 <input
                   type="text"
                   value={data.exp}
-                  inputMode
                   name="exp"
                   onChange={onChange}
                   className="form-control"
@@ -66,7 +65,7 @@ const CreditCardForm = ({ data, onChange, onSubmit, onCardClose }) => {
                 />
               </div>
               <div className="col-md-6">
-                <label htlmFor="cvv" className="form-label">
+                <label htmlFor="cvv" className="form-label">
                   CVV
                 </label>
                 <input

@@ -1,4 +1,4 @@
-const apiKey = process.env.GOOGLE_API_KEY;
+const apiKey = process.env.REACT_APP_GOOGLE_API_KEY;
 
 export const loadGoogleMaps = (callback) => {
   const existingScript = document.getElementById("googleMaps");

@@ -35,7 +35,7 @@ const Cart = () => {
 
   return (
     <Layout>
-      <div className="glass container p-3 p-sm-8 mt-5 h-100">
+      <div className="glass container p-3 p-sm-8 mt-5">
         <div className="my-5">
           <h2>Cart</h2>
         </div>
@@ -88,7 +88,7 @@ const Cart = () => {
                               </p>
 
                               {item.extras?.length > 0 && (
-                                <p>
+                                <div>
                                   <span className="fw-bolder">Extras: </span>
                                   {item.extras?.map((extra, i) =>
                                     item.extras?.length - 1 === i ? (
@@ -101,7 +101,7 @@ const Cart = () => {
                                       >{`${extra.qty} ${extra.name}, `}</span>
                                     )
                                   )}
-                                </p>
+                                </div>
                               )}
                             </div>
                             <div className="col-2">

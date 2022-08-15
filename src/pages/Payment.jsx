@@ -1,31 +1,53 @@
-//import { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 import Layout from "../components/Layout";
 
 const Payment = () => {
-  const { cart } = useSelector((state) => state.cart);
+  const [cardData, setCardData] = useState({
+    cardname: "",
+    cardnumber: "",
+    exp: "",
+    cvv: "",
+  });
+  const { checkout } = useSelector((state) => state.checkout);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!checkout) {
+      navigate("/menu");
+    }
+  }, [checkout, navigate]);
+
+  const onChange = (e) => {
+    setCardData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   return (
     <Layout>
-      <div className="container">
+      <div className="glass container p-3 p-sm-8 mt-5">
         <div className="mb-5">
-          <h2>Checkout</h2>
+          <h2>Payment</h2>
         </div>
         <div className="row">
           <div className="col-12 col-md-8 ">
             <div className="bg-white p-5">
               <div className="">
                 <div className="">
-                  <div className="mb-2">
+                  <div className="mb-4">
                     <h4>Order Summary</h4>
                   </div>
                   <div className="mb-3">
-                    <h5>Items (1)</h5>
+                    <h5>Items ({checkout?.cart?.length || 0})</h5>
 
                     <ul className="ps-0">
-                      {cart.map((item, ind) => {
+                      {checkout?.cart.map((item, ind) => {
                         return (
                           <li key={ind} className="border-top ">
                             <div className="row align-items-center py-2">
@@ -37,7 +59,25 @@ const Payment = () => {
                                   className="rounded"
                                 />
                               </div>
-                              <div className="col-4">{item.name}</div>
+                              <div className="col-4">
+                                {item.name}
+                                {item.extras?.length > 0 && (
+                                  <div>
+                                    <span className="fw-bolder">Extras: </span>
+                                    {item.extras?.map((extra, i) =>
+                                      item.extras?.length - 1 === i ? (
+                                        <span
+                                          key={i}
+                                        >{`${extra.qty} ${extra.name}`}</span>
+                                      ) : (
+                                        <span
+                                          key={i}
+                                        >{`${extra.qty} ${extra.name}, `}</span>
+                                      )
+                                    )}
+                                  </div>
+                                )}
+                              </div>
                               <div className="col-2">{`X ${item.qty}`}</div>
                               <div className="col-2 text-center">
                                 ${item.price.toFixed(2)}
@@ -56,7 +96,7 @@ const Payment = () => {
                       <p className="">Sub Total</p>
                       <p className="">
                         £
-                        {cart
+                        {checkout?.cart
                           .reduce((total, item) => {
                             let subTotal = item.price * item.qty;
 
@@ -83,7 +123,7 @@ const Payment = () => {
                         £
                         {(
                           20 +
-                          cart.reduce((total, item) => {
+                          checkout?.cart.reduce((total, item) => {
                             let subTotal = item.price * item.qty;
 
                             return total + subTotal;
@@ -100,17 +140,20 @@ const Payment = () => {
                 <div className="mt-2 py-2 border-bottom">
                   <h5>Billing Address</h5>
                   <div className="">
-                    <p className="mb-0">John Doe</p>
-                    <p className="mb-0">20 Ighten Road</p>
-                    <p className="">Burnley, LAN BB12 0HP GB</p>
+                    <p className="mb-0">{checkout?.billing.name}</p>
+                    <p className="mb-0">{checkout?.billing.phone}</p>
+                    <p className="mb-0">{checkout?.billing.address}</p>
+                    <p className="mb-0">{checkout?.billing.address_2}</p>
+                    <p className="">{`${checkout?.billing.city}, ${checkout?.billing.state}`}</p>
                   </div>
                 </div>
                 <div className="mt-4">
                   <h5>Delivery Address</h5>
                   <div className="">
-                    <p className="mb-0">John Doe</p>
-                    <p className="mb-0">20 Ighten Road</p>
-                    <p className="mb-0">Burnley, LAN BB12 0HP GB</p>
+                    <p className="mb-0">{checkout?.delivery.name}</p>
+                    <p className="mb-0">{checkout?.delivery.phone}</p>
+                    <p className="mb-0">{checkout?.delivery.address}</p>
+                    <p className="">{`${checkout?.delivery.city}, ${checkout?.delivery.state}`}</p>
                   </div>
                 </div>
               </div>
@@ -134,25 +177,29 @@ const Payment = () => {
                   </div>
 
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="cname">
+                    <label className="form-label" htmlFor="cardname">
                       Name on Card
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="cname"
+                      id="cardname"
                       name="cardname"
+                      value={cardData.cardname}
+                      onChange={onChange}
                       placeholder="John More Doe"
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label" htmlFor="ccnum">
+                    <label className="form-label" htmlFor="cardnumber">
                       Credit card number
                     </label>
                     <input
                       type="text"
                       className="form-control"
-                      id="ccnum"
+                      value={cardData.cardnumber}
+                      onChange={onChange}
+                      id="cardnumber"
                       name="cardnumber"
                       placeholder="1111-2222-3333-4444"
                     />
@@ -160,15 +207,17 @@ const Payment = () => {
                   <div className="row">
                     <div className="col mb-3 row">
                       <label className="col-sm-3 col-form-label" htmlFor="exp">
-                        Exp at
+                        Expiry
                       </label>
                       <div className="col-sm-9">
                         <input
                           type="text"
-                          id="expmonth"
-                          name="expmonth"
+                          value={cardData.exp}
+                          name="exp"
+                          onChange={onChange}
+                          id="exp"
                           className="form-control"
-                          placeholder="Month/Year"
+                          placeholder="MM/YY"
                         ></input>
                       </div>
                     </div>
@@ -180,7 +229,9 @@ const Payment = () => {
                         <input
                           type="text"
                           id="cvv"
+                          value={cardData.cvv}
                           name="cvv"
+                          onChange={onChange}
                           className="form-control"
                           placeholder="352"
                         ></input>

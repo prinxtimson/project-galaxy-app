@@ -1,13 +1,18 @@
 import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
+import { saveCheckout } from "../features/checkout/checkoutSlice";
 import Layout from "../components/Layout";
 
 const Checkout = () => {
   const [billing, setBilling] = useState({
-    first_name: "",
-    last_name: "",
+    name: "",
     email: "",
     phone: "",
     address: "",
+    address_2: "",
     city: "",
     state: "",
     country: "United Kingdom",
@@ -22,23 +27,69 @@ const Checkout = () => {
     country: "United Kingdom",
   });
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { profile } = useSelector((state) => state.profile);
+  const { cart } = useSelector((state) => state.cart);
+  const { isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.checkout
+  );
+
   useEffect(() => {
     if (billing.billing_is_delivery) {
       setDelivery({
-        name: `${billing.first_name} ${billing.last_name}`,
+        name: billing.name,
         phone: billing.phone,
         address: billing.address,
         city: billing.city,
         state: billing.state,
         country: billing.country,
       });
+    } else {
+      setDelivery({
+        name: "",
+        phone: "",
+        address: "",
+        city: "",
+        state: "",
+        country: "United Kingdom",
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [billing.billing_is_delivery]);
 
+  useEffect(() => {
+    if (profile.user) {
+      setBilling({ ...billing, ...profile.user });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess) {
+      navigate("/payment");
+    }
+  }, [isError, isSuccess, message, navigate]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const checkoutData = {
+      cart,
+      billing,
+      delivery: billing.billing_is_delivery ? billing : delivery,
+    };
+
+    dispatch(saveCheckout(checkoutData));
+  };
+
   return (
     <Layout>
-      <div className=" m-3 mt-5  bg-white p-4 rounded">
+      <div className="container m-3 mt-5  bg-white p-5 rounded">
         <div className="mb-5">
           <h2>Checkout</h2>
         </div>
@@ -48,34 +99,34 @@ const Checkout = () => {
               <h4>Billing Address</h4>
             </div>
             <div className="">
-              <form className="">
+              <form className="" onSubmit={onSubmit}>
+                <div className="mb-2">
+                  <h5>Personal Details</h5>
+                </div>
                 <div className="row">
                   <div className="col-12 col-md-6">
-                    <div className="mb-2">
-                      <h5>Personal Details</h5>
-                    </div>
                     <div className="">
                       <div className=" mb-3">
-                        <label className="form-label" htmlFor="First Name">
-                          * First Name
+                        <label className="form-label" htmlFor="Name">
+                          * Name
                         </label>
                         <input
                           type="text"
                           className="form-control "
-                          id="first_name"
-                          name="first_name"
-                          value={billing.first_name}
-                          placeholder="First Name"
+                          id="name"
+                          name="name"
+                          value={billing.name}
+                          placeholder="Name"
                           onChange={(e) =>
                             setBilling((preData) => ({
                               ...preData,
-                              first_name: e.target.value,
+                              name: e.target.value,
                             }))
                           }
                           required
                         />
                       </div>
-                      <div className=" mb-3">
+                      {/* <div className=" mb-3">
                         <label className="form-label" htmlFor="Last Name">
                           * Last Name
                         </label>
@@ -94,7 +145,7 @@ const Checkout = () => {
                           }
                           required
                         />
-                      </div>
+                      </div> */}
                       <div className=" mb-3">
                         <label className="form-label" htmlFor="Email">
                           * Email
@@ -135,13 +186,6 @@ const Checkout = () => {
                           required
                         />
                       </div>
-                    </div>
-                  </div>
-                  <div className="col-12 col-md-6">
-                    <div className="mb-2">
-                      <h5>Address</h5>
-                    </div>
-                    <div className="">
                       <div className=" mb-3">
                         <label className="form-label" htmlFor="Address 1">
                           * Address 1
@@ -160,6 +204,29 @@ const Checkout = () => {
                             }))
                           }
                           required
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 col-md-6">
+                    <div className="">
+                      <div className=" mb-3">
+                        <label className="form-label" htmlFor="Address 2">
+                          Address 2
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control "
+                          id="address_2"
+                          name="address_2"
+                          value={billing.address_2}
+                          placeholder="Address 2"
+                          onChange={(e) =>
+                            setBilling((preData) => ({
+                              ...preData,
+                              address_2: e.target.value,
+                            }))
+                          }
                         />
                       </div>
                       <div className=" mb-3">
@@ -382,7 +449,11 @@ const Checkout = () => {
                   </div>
                 )}
                 <div className="d-grid d-md-flex justify-content-md-end">
-                  <button type="submit" className="btn btn-primary btn-lg">
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className="btn btn-primary btn-lg"
+                  >
                     Continue
                   </button>
                 </div>

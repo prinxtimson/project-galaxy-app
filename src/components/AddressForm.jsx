@@ -23,7 +23,7 @@ const AddressForm = ({ data, onChange, onSubmit, onAddressClose }) => {
           <div className="modal-body">
             <div className="row g-3">
               <div className="col-12">
-                <label htlmFor="address" className="form-label">
+                <label htmlFor="address" className="form-label">
                   Address
                 </label>
                 <input
@@ -37,7 +37,7 @@ const AddressForm = ({ data, onChange, onSubmit, onAddressClose }) => {
                 />
               </div>
               <div className="col-12">
-                <label htlmFor="address_2" className="form-label">
+                <label htmlFor="address_2" className="form-label">
                   Address 2
                 </label>
                 <input
@@ -51,7 +51,7 @@ const AddressForm = ({ data, onChange, onSubmit, onAddressClose }) => {
                 />
               </div>
               <div className="col-md-6">
-                <label htlmFor="city" className="form-label">
+                <label htmlFor="city" className="form-label">
                   City
                 </label>
                 <input
@@ -64,7 +64,7 @@ const AddressForm = ({ data, onChange, onSubmit, onAddressClose }) => {
                 />
               </div>
               <div className="col-md-6">
-                <label htlmFor="state" className="form-label">
+                <label htmlFor="state" className="form-label">
                   State
                 </label>
                 <input
