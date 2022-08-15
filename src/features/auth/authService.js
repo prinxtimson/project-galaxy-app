@@ -20,7 +20,10 @@ const register = async (userData) => {
       "user",
       JSON.stringify({ user: userData, token: "HH2i93nind0303ndKLsidw2obZh0" })
     );
-    localStorage.setItem("profile", JSON.stringify({ user: userData }));
+    localStorage.setItem(
+      "profile",
+      JSON.stringify({ user: userData, cards: [], addresses: [] })
+    );
   }
 
   return { user: userData, token: "HH2i93nind0303ndKLsidw2obZh0" };
@@ -53,7 +56,10 @@ const login = async (userData) => {
   let newUser = { user, token: "HH2i93nind0303ndKLsidw2obZh0" };
 
   localStorage.setItem("user", JSON.stringify(newUser));
-  localStorage.setItem("profile", JSON.stringify({ user }));
+  localStorage.setItem(
+    "profile",
+    JSON.stringify({ user, cards: [], addresses: [] })
+  );
 
   return newUser;
 };

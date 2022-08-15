@@ -263,7 +263,10 @@ const Cart = () => {
               <div className="card-body">
                 <p>
                   No food in your cart yet, please visit the{" "}
-                  <Link to="/menu">Menu</Link> page to add food to cart
+                  <Link to="/menu" className="text-decoration-underline">
+                    Menu
+                  </Link>{" "}
+                  page to add food to cart
                 </p>
               </div>
             </div>

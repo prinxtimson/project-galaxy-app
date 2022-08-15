@@ -1,14 +1,39 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { v4 as uuid } from "uuid";
 import { toast } from "react-toastify";
+import { MdCreditCard, MdDelete, MdLocationPin } from "react-icons/md";
+import AddressForm from "../components/AddressForm";
+import CreditCardForm from "../components/CreditCardForm";
 import Layout from "../components/Layout";
 import {
   updateProfile,
   getProfile,
+  addAddress,
+  addCard,
+  removeAddress,
+  removeCard,
   reset,
 } from "../features/profile/profileSlice";
 
+// addAddressBtn.current.click()
+//       addCardBtn.current.
+
 const Profile = () => {
+  const addAddressBtn = useRef(null);
+  const addCardBtn = useRef(null);
+  const [addressData, setAddressData] = useState({
+    address: "",
+    address_2: "",
+    city: "",
+    state: "",
+  });
+  const [cardData, setCardData] = useState({
+    cardname: "",
+    cardnumber: "",
+    exp: "",
+    cvv: "",
+  });
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -31,17 +56,73 @@ const Profile = () => {
     }));
   };
 
+  const onAddressChange = (e) => {
+    setAddressData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onCreditChange = (e) => {
+    setCardData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onAddressSubmit = (e) => {
+    e.preventDefault();
+    let id = uuid();
+    dispatch(addAddress({ ...addressData, id }));
+  };
+
+  const onCreditCardSubmit = (e) => {
+    e.preventDefault();
+    let id = uuid();
+    dispatch(addCard({ ...cardData, id }));
+  };
+
   useEffect(() => {
     if (isError) {
       toast.error(message);
     }
 
     if (isSuccess) {
-      toast.success("Profile updated successfuly");
+      toast.success(message);
+      setCardData({
+        cardname: "",
+        cardnumber: "",
+        exp: "",
+        cvv: "",
+      });
+      setAddressData({
+        address: "",
+        address_2: "",
+        city: "",
+        state: "",
+      });
     }
 
     dispatch(reset());
   }, [isError, isSuccess, message, dispatch]);
+
+  const onAddressClose = () => {
+    setAddressData({
+      address: "",
+      address_2: "",
+      city: "",
+      state: "",
+    });
+  };
+
+  const onCardClose = () => {
+    setCardData({
+      cardname: "",
+      cardnumber: "",
+      exp: "",
+      cvv: "",
+    });
+  };
 
   useEffect(() => {
     dispatch(getProfile());
@@ -60,6 +141,18 @@ const Profile = () => {
 
   return (
     <Layout>
+      <AddressForm
+        data={addressData}
+        onChange={onAddressChange}
+        onSubmit={onAddressSubmit}
+        onAddressClose={onAddressClose}
+      />
+      <CreditCardForm
+        data={cardData}
+        onChange={onCreditChange}
+        onSubmit={onCreditCardSubmit}
+        onCardClose={onCardClose}
+      />
       <div className="glass container mt-5">
         <div className="">
           <h2>My Account</h2>
@@ -114,7 +207,7 @@ const Profile = () => {
                 </label>
                 <div className="col-sm-10 col-md-8">
                   <input
-                    type="text"
+                    type="number"
                     className="form-control form-control-lg"
                     name="phone"
                     id="phone"
@@ -144,26 +237,106 @@ const Profile = () => {
           <div className="mb-5">
             <div className="d-flex justify-content-between">
               <h3>My Address Book</h3>
-              <button className="btn btn-dark">Add New Delivery Address</button>
+              <button
+                type="button"
+                className="btn btn-dark"
+                data-bs-toggle="modal"
+                data-bs-target="#addressModal"
+                ref={addAddressBtn}
+              >
+                Add New Delivery Address
+              </button>
             </div>
-            <div className="row mb-3">
+            <div className="row my-3">
               <label htmlFor="name" className="col-sm-2 col-form-label">
-                Work
+                Address
               </label>
-              <div className="col-sm-10"></div>
+              <div className="col-sm-10 col-md-8">
+                <ul className="list-group">
+                  {profile.addresses?.map((val) => (
+                    <li
+                      className="list-group-item d-flex justify-content-betwee align-items-center"
+                      key={val.id}
+                    >
+                      <span className="mx-3">
+                        <MdLocationPin size={30} />
+                      </span>
+                      <div className="flex-grow-1">
+                        <div className="fw-fold ">{val.address}</div>
+                        <div className="">{val.address_2}</div>
+                        <div className="">
+                          {val.city}
+                          {", "}
+                          {val.state}
+                        </div>
+                      </div>
+
+                      <span>
+                        <button
+                          type="button"
+                          onClick={() => dispatch(removeAddress(val))}
+                          className="btn"
+                        >
+                          <MdDelete />
+                        </button>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
 
           <div className="mb-5">
             <div className="d-flex justify-content-between">
               <h3>My Payment Details</h3>
-              <button className="btn btn-dark">Add New Delivery Address</button>
+              <button
+                type="button"
+                className="btn btn-dark"
+                data-bs-toggle="modal"
+                data-bs-target="#creditCardModal"
+                ref={addCardBtn}
+              >
+                Add New Card Details
+              </button>
             </div>
-            <div className="row mb-3">
+            <div className="row my-3">
               <label htmlFor="name" className="col-sm-2 col-form-label">
                 Payment Card
               </label>
-              <div className="col-sm-10"></div>
+              <div className="col-sm-10 col-md-8">
+                <ul className="list-group">
+                  {profile.cards?.map((card) => (
+                    <li
+                      className="list-group-item d-flex justify-content-betwee align-items-center"
+                      key={card.id}
+                    >
+                      <span className="mx-3">
+                        <MdCreditCard size={35} />
+                      </span>
+                      <div className="flex-grow-1">
+                        <div className="fw-fold ">{card.cardname}</div>
+                        {` ${card.cardnumber?.substring(
+                          0,
+                          4
+                        )}************${card.cardnumber?.substring(
+                          card.cardnumber?.length - 4
+                        )}`}
+                      </div>
+                      <span className="mx-3">{card.exp}</span>
+                      <span>
+                        <button
+                          type="button"
+                          onClick={() => dispatch(removeCard(card))}
+                          className="btn"
+                        >
+                          <MdDelete />
+                        </button>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

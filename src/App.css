@@ -50,3 +50,11 @@
   backdrop-filter: blur(1rem);
   padding: 2.5rem !important;
 }
+
+.p-inputnumber-buttons-stacked {
+  max-width: 100% !important;
+}
+
+.p-inputnumber-input {
+  max-width: 60% !important;
+}

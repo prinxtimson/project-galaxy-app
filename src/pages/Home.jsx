@@ -189,11 +189,12 @@ const Home = () => {
         <div className="my-5">
           <h3 className="text-center text-white">Trending Food</h3>
         </div>
-        <div className="">
+        <div className="mb-5">
           <Carousel
             value={filterProducts}
             itemTemplate={itemTemplate}
             responsiveOptions={responsiveOptions}
+            autoplayInterval={5000}
             numVisible={3}
             numScroll={1}
             circular

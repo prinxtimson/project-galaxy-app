@@ -26,15 +26,41 @@ const updateProfile = async (data) => {
 };
 
 const addCard = async (data) => {
-  // let data = {};
+  let profile = JSON.parse(localStorage.getItem("profile"));
+  profile = { ...profile, cards: [...profile.cards, data] };
 
-  return data;
+  localStorage.setItem("profile", JSON.stringify(profile));
+
+  return profile;
 };
 
 const removeCard = async (data) => {
-  //let data = {};
+  let profile = JSON.parse(localStorage.getItem("profile"));
+  let cards = profile.cards.filter((card) => card.id !== data.id);
+  profile = { ...profile, cards: [...cards] };
 
-  return data;
+  localStorage.setItem("profile", JSON.stringify(profile));
+
+  return profile;
+};
+
+const addAddress = async (data) => {
+  let profile = JSON.parse(localStorage.getItem("profile"));
+  profile = { ...profile, addresses: [...profile.addresses, data] };
+
+  localStorage.setItem("profile", JSON.stringify(profile));
+
+  return profile;
+};
+
+const removeAddress = async (data) => {
+  let profile = JSON.parse(localStorage.getItem("profile"));
+  let addresses = profile.addresses.filter((card) => card.id !== data.id);
+  profile = { ...profile, addresses: [...addresses] };
+
+  localStorage.setItem("profile", JSON.stringify(profile));
+
+  return profile;
 };
 
 const productService = {
@@ -42,6 +68,8 @@ const productService = {
   updateProfile,
   addCard,
   removeCard,
+  addAddress,
+  removeAddress,
 };
 
 export default productService;

@@ -70,6 +70,38 @@ export const removeCard = createAsyncThunk(
   }
 );
 
+export const addAddress = createAsyncThunk(
+  "profile/add-address",
+  async (data, thunkAPI) => {
+    try {
+      return await profileService.addAddress(data);
+    } catch (err) {
+      const msg =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+
+      return thunkAPI.rejectWithValue(msg);
+    }
+  }
+);
+
+export const removeAddress = createAsyncThunk(
+  "profile/remove-address",
+  async (data, thunkAPI) => {
+    try {
+      return await profileService.removeAddress(data);
+    } catch (err) {
+      const msg =
+        (err.response && err.response.data && err.response.data.message) ||
+        err.message ||
+        err.toString();
+
+      return thunkAPI.rejectWithValue(msg);
+    }
+  }
+);
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -102,6 +134,7 @@ export const profileSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.profile = action.payload;
+        state.message = "Profile updated successfuly";
       })
       .addCase(updateProfile.rejected, (state, action) => {
         state.isLoading = false;
@@ -114,10 +147,8 @@ export const profileSlice = createSlice({
       .addCase(addCard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.profile = {
-          ...state.profile,
-          card: [...state.profile.card, action.payload],
-        };
+        state.profile = action.payload;
+        state.message = "Card added successfully";
       })
       .addCase(addCard.rejected, (state, action) => {
         state.isLoading = false;
@@ -130,10 +161,38 @@ export const profileSlice = createSlice({
       .addCase(removeCard.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        let card = state.profile?.card.filter((val) => val !== action.payload);
-        state.profile = { ...state.profile, card: [...card] };
+        state.profile = action.payload;
+        state.message = "Card remove successfully";
       })
       .addCase(removeCard.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(addAddress.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(addAddress.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.profile = action.payload;
+        state.message = "Address added successfully";
+      })
+      .addCase(addAddress.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(removeAddress.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(removeAddress.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.profile = action.payload;
+        state.message = "Address remove successfully";
+      })
+      .addCase(removeAddress.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

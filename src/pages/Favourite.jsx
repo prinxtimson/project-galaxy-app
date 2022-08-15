@@ -109,8 +109,15 @@ const Favourite = () => {
             <div className="card">
               <div className="card-body">
                 <p>
-                  Please <Link to="/login">login</Link> or{" "}
-                  <Link to="/register">register</Link> to view order history{" "}
+                  Please{" "}
+                  <Link to="/login" className="text-decoration-underline">
+                    login
+                  </Link>{" "}
+                  or{" "}
+                  <Link to="/register" className="text-decoration-underline">
+                    register
+                  </Link>{" "}
+                  to view order history{" "}
                 </p>
               </div>
             </div>
