@@ -204,14 +204,14 @@ const Cart = () => {
                             <p className="mb-0">Delivery Fee </p>
                           </div>
                           <div className="">
-                            {mode === "Eat In" ? "£0.00" : "£20.00"}
+                            {mode === "Eat In" ? "£0.00" : "£3.99"}
                           </div>
                         </div>
                         <small
                           className="text-muted lh-1"
                           style={{ fontSize: 13 }}
                         >
-                          Free Delivery on orders over £30
+                          Free Delivery on orders over £3.99
                         </small>
                       </li>
                       <li className="d-flex pb-2 justify-content-between">
